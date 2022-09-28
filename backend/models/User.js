@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 
 const UserSchema = new mongoose.Schema({
-  accessToken: [String],
   name: {
     type: String,
     trim: true,
@@ -10,11 +9,6 @@ const UserSchema = new mongoose.Schema({
   bio: {
     type: String,
     trim: true
-  },
-  googleId:{
-     type:String,
-     trim:true,
-    // required:true
   },
   email: {
     type: String,
