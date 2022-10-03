@@ -4,7 +4,7 @@ const Home = () => {
 
     return (
         <div>
-            Home Page
+            Welcome inside IIITL
         </div>
     )
 }

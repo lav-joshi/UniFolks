@@ -23,10 +23,9 @@ const UserSchema = new mongoose.Schema({
       type:Number,
       trim:true
   },
-  linkedin:{
-    type:String
-  },
-  children: [String]
+  urls:[String],
+  children: [String],
+  tags: [String]
 });
 
 module.exports = mongoose.model("User", UserSchema);

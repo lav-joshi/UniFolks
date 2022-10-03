@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const User = require('../models/User');
-
+const authUser = require('../middleware/authUser')
 
 router.get("/addUser" , (req,res)=>{
     // parent
@@ -32,6 +32,24 @@ router.get("/create", (req,res)=>{
         res.send("Done");
     })
 })
+
+router.get("/hello",authUser, (req,res)=>{
+    console.log("Nacho bacho");
+    res.status(200).send({message:"Amazing"});
+})
+
+// This returns the user information .
+// Params: key can be id or email and value should be corresponding to that in body.
+
+router.get("/getProfile/:key", (req, res)=> {
+    let key = req.params['key'];
+    User.findOne({key : req.body.value},async (err, user)=>{
+        if(err) {
+            res.status(400).send({message : "Something went wrong"});
+        }
+        res.status(200).send(user);
+    });
+});
 
 module.exports = router;
 
