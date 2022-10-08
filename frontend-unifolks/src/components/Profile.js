@@ -4,11 +4,12 @@ import Cookies from 'universal-cookie';
 
 const cookies = new Cookies();
 
-const createHeader = (token) => {
+const createHeader = () => {
     const authAxios = axios.create({
         baseURL: "http://localhost:5000",
         headers: {
             Authorization: `Bearer ${cookies.get("token")}`,
+            email: cookies.get("email"),
             "Content-Type" : 'application/json'
         }
     });
@@ -18,10 +19,10 @@ const createHeader = (token) => {
 const Profile = () => {
 
     useEffect(()=>{
-        createHeader(cookies.get("token")).get("/api/user/hello").then((res)=>{
+        createHeader().get("/api/user/hello").then((res)=>{
             console.log(res)
         }).catch((e)=>{
-    
+            
         })    
     },[])
   

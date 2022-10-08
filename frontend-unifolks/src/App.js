@@ -6,6 +6,7 @@ import Profile from './components/Profile';
 import "bootstrap/dist/css/bootstrap.min.css";
 import {UserProvider, UserConsumer} from './UserContext';
 import Cookies from 'universal-cookie';
+import ChatGround from './components/ChatGround';
 const cookies = new Cookies();
 
 class App extends Component {
@@ -48,6 +49,7 @@ class App extends Component {
                           isAuthenticated ?  <>
                             <Route path="/" exact component={Home} /> 
                             <Route path="/profile" exact component={Profile} /> 
+                            <Route path = "/chat" exact component={ChatGround}/>
                           </>: <div>Login from your IIITL account</div>
                       )
                     }

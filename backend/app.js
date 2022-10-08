@@ -1,9 +1,12 @@
 const express = require('express')
 const bodyParser = require('body-parser');
 const cors = require("cors");
+const http = require("http");
+const socketio = require("socket.io");
 const cookieParser = require("cookie-parser");
-
+const Chat = require('./models/Chat')
 const app = express()
+
 require('dotenv').config()
 require("./db/mongoose");
 
@@ -20,12 +23,47 @@ const userRouter = require('./routes/user');
 app.use('/api/auth', authRouter);
 app.use('/api/user', userRouter);
 
+const server = http.createServer(app);
+const io = require("socket.io")(server, {
+    cors: {
+      origin: "http://localhost:3000",
+      methods: ["GET", "POST"],
+      allowedHeaders: ["my-custom-header"],
+      credentials: true,
+    },
+});
+
+  
 app.get('/', (req, res) => {
     res.send("Hello word");
 });
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, ()=>{
+io.on('connection', (socket)=>{
+    // console.log("New Web Socket Connection");
+
+    socket.on('join',({email}, callback)=>{
+        console.log("Joined", email)
+        socket.join(email);   
+    })
+
+    socket.on('sendMessage', ({message, userId, friendId})=>{
+        Chat.create({
+            sender: userId,
+            receiver: friendId,
+            message,
+        }, (err, chat)=>{
+            io.to(userId).emit('message',message);
+            io.to(friendId).emit('message',message);
+        })
+    })
+
+    socket.on('disconnector', ()=>{
+        console.log("Disconnection has been made");
+    })
+})
+
+server.listen(PORT, ()=>{
     console.log("Server running on Port " + PORT)
 })

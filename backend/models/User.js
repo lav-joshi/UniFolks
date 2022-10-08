@@ -4,28 +4,34 @@ const UserSchema = new mongoose.Schema({
   name: {
     type: String,
     trim: true,
-   // required: true
+    required: true,
   },
   bio: {
     type: String,
-    trim: true
+    trim: true,
   },
   email: {
     type: String,
     trim: true,
-   // required: true
+    required: true,
   },
   displayPicture: {
     type: String,
-    trim: true
+    trim: true,
   },
-  contact:{
-      type:Number,
-      trim:true
+  contact: {
+    type: Number,
+    trim: true,
   },
-  urls:[String],
+  urls: [String],
   children: [String],
-  tags: [String]
+  tags: [String],
+  isAdmin: {
+    type: Boolean,
+    default: false,
+    required: true,
+  },
+  friends :[String]
 });
 
 module.exports = mongoose.model("User", UserSchema);
