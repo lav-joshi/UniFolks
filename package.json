@@ -1,0 +1,21 @@
+{
+  "name": "unifolks",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "cd backend && npm run dev",
+    "client": "cd frontend-unifolks && npm start",
+    "install-all": "cd backend && npm install && cd ../frontend-unifolks && npm install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lav-joshi/UniFolks.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lav-joshi/UniFolks/issues"
+  },
+  "homepage": "https://github.com/lav-joshi/UniFolks#readme"
+}
