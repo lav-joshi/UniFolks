@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from 'axios'
-import Chat from "./Chat";
+import Chat from "../Chat";
 import {useLocation} from "react-router-dom";
 import Cookies from 'universal-cookie';
 

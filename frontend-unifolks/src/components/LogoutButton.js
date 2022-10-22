@@ -3,7 +3,7 @@ import { GoogleLogout } from 'react-google-login';
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
-const LogOut = (props) => {
+const LogoutButton = (props) => {
 
     const logout = ()=>{
        props.toggleAuth(false);
@@ -22,4 +22,4 @@ const LogOut = (props) => {
     )
 }
 
-export default LogOut
+export default LogoutButton

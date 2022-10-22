@@ -1,10 +1,10 @@
 import React,{Component} from 'react'
 import{ BrowserRouter as Router , Route } from 'react-router-dom';
-import Home from './components/Home';
+import Dashboard from './Dashboard';
 import NavBar from './components/NavBar';
-import Profile from './components/Profile';
+import Profile from './Profile';
 import "bootstrap/dist/css/bootstrap.min.css";
-import {UserProvider, UserConsumer} from './UserContext';
+import {UserProvider, UserConsumer} from './context/UserContext';
 import Cookies from 'universal-cookie';
 import ChatGround from './components/ChatGround';
 const cookies = new Cookies();
@@ -41,16 +41,20 @@ class App extends Component {
             <Router>
               <div className="container">
                 <NavBar/>
+
+                {/* Complete the landing page */}
                 <br/>
                 <UserConsumer>
                     {
                       ({isAuthenticated, toggleAuth}) => (
                           
-                          isAuthenticated ?  <>
-                            <Route path="/" exact component={Home} /> 
+                          isAuthenticated?
+                          <>
+                            <Route path="/dashboard" exact component={Dashboard} /> 
                             <Route path="/profile" exact component={Profile} /> 
                             <Route path = "/chat" exact component={ChatGround}/>
-                          </>: <div>Login from your IIITL account</div>
+                          </>: 
+                          <div>Login from your IIITL account</div>
                       )
                     }
                 </UserConsumer>

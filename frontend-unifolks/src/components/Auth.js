@@ -1,6 +1,6 @@
 import React,{useState ,useEffect} from 'react'
 import Cookies from 'universal-cookie';
-import Login from './Login';
+import LoginButton from './LoginButton';
 const cookies = new Cookies();
 
 const App = () => {
@@ -17,7 +17,7 @@ const App = () => {
     <div>
       {
         !isAuthenticated?  
-        <Login/> :  <LogOut/>
+        <LoginButton/> :  <LogoutButton/>
       }
        
     </div>

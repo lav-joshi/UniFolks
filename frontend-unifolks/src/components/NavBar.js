@@ -1,9 +1,9 @@
 import React from 'react'
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link } from 'react-router-dom';
-import Login from './Login';
-import LogOut from './LogOut';
-import { UserConsumer } from '../UserContext';
+import LoginButton from './LoginButton';
+import LogoutButton from './LogoutButton';
+import { UserConsumer } from '../context/UserContext';
 
 const NavBar = () => {
     return (
@@ -28,7 +28,7 @@ const NavBar = () => {
                         {
                             ({isAuthenticated, toggleAuth}) => (
                                 
-                                isAuthenticated ?  <LogOut toggleAuth={toggleAuth}/> : <Login toggleAuth={toggleAuth}/>
+                                isAuthenticated ?  <LogoutButton toggleAuth={toggleAuth}/> : <LoginButton toggleAuth={toggleAuth}/>
                             )
                         }
                         </UserConsumer>
