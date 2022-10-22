@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { Handle, Position } from 'reactflow';
 import '../styles/App.css';
-import { Box, Card, CardContent, Typography, IconButton, CardMedia } from '@material-ui/core';
+import { Box, Card, CardContent, Typography, CardMedia } from '@material-ui/core';
 import {useTheme } from "@material-ui/core/styles";
 
 const handleStyle = { left: 10 };
