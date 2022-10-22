@@ -1,12 +1,13 @@
 import React,{Component} from 'react'
 import{ BrowserRouter as Router , Route } from 'react-router-dom';
 import Dashboard from './Dashboard';
-import NavBar from './components/NavBar';
 import Profile from './Profile';
 import "bootstrap/dist/css/bootstrap.min.css";
 import {UserProvider, UserConsumer} from './context/UserContext';
 import Cookies from 'universal-cookie';
-import ChatGround from './components/ChatGround';
+import ChatGround from './ChatGround';
+import HomePage from './HomePage';
+import "bootstrap/dist/css/bootstrap.min.css";
 const cookies = new Cookies();
 
 class App extends Component {
@@ -39,11 +40,7 @@ class App extends Component {
       <div>
          <UserProvider value={this.state} >
             <Router>
-              <div className="container">
-                <NavBar/>
-
-                {/* Complete the landing page */}
-                <br/>
+                <Route path="/" exact component={HomePage} /> 
                 <UserConsumer>
                     {
                       ({isAuthenticated, toggleAuth}) => (
@@ -54,11 +51,10 @@ class App extends Component {
                             <Route path="/profile" exact component={Profile} /> 
                             <Route path = "/chat" exact component={ChatGround}/>
                           </>: 
-                          <div>Login from your IIITL account</div>
+                          <></>
                       )
                     }
                 </UserConsumer>
-              </div>
             </Router>
           </UserProvider>
       </div>

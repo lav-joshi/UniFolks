@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from 'axios'
-import Chat from "../Chat";
+import ChatMessages from "./components/ChatMessages";
 import {useLocation} from "react-router-dom";
 import Cookies from 'universal-cookie';
 
@@ -32,15 +32,15 @@ const ChatGround = () => {
     },[])
 
   return (
-    <div>
-        Hello Chat Ground
+    <div class="container">
+        Hello ChatMessages Ground
         {
             friends.map((val,idx)=>{
                 return <div onClick={(e) => setSelectedFriend(val)}> {val} </div>
             })
         }
         {
-            selectedFriend ?  <Chat userId = {cookies.get("email")} friendId = {selectedFriend}/> :<></>
+            selectedFriend ?  <ChatMessages userId = {cookies.get("email")} friendId = {selectedFriend}/> :<></>
         }
     </div>
   );
