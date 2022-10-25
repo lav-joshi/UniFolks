@@ -20,6 +20,16 @@ let socket;
 
 const Chat = (props) => {
 
+  // Props contain 
+  // {
+  //   userId -> mail id of current user
+  //   friend {
+  //     name
+  //     picture 
+  //     email
+  //   }
+  // }
+  
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
   const ENDPOINT = "http://localhost:5000";
@@ -42,7 +52,7 @@ const Chat = (props) => {
 
     // Get all messages from the server for this friend
   useEffect(() => {
-    createHeader().post("/api/user/getMessages", {userId: props.userId, friendId: props.friendId}).then((res)=>{
+    createHeader().post("/api/user/getMessages", {userId: props.userId, friendId: props.friend.email}).then((res)=>{
         setMessages(res.data.messages)
     }).catch((e)=>{
         
@@ -58,14 +68,14 @@ const Chat = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (message) {
-      socket.emit("sendMessage", { message, userId: props.userId, friendId : props.friendId });
+      socket.emit("sendMessage", { message, userId: props.userId, friendId : props.friend.email });
       setMessage("");
     } else alert("empty input");
   };
 
   return (
     <>
-      <div>Chat Page {props.userId} {props.friendId}</div>
+      <div>Chat Page {props.userId} {props.friend.email}</div>
       <div className="conv-wrapper">
         <div className="conversations">
           {

@@ -15,11 +15,11 @@ router.post("/google/signin",async(req,res)=>{
         audience : process.env.clientId
     }).then((response)=>{
 
-        const {email_verified , name, email } = response.payload;
+        const {email_verified , name, email, hd, picture } = response.payload;
+       
         if(email_verified){
-            let domain = email.split('@')[1];
 
-            if(domain  !== ""){
+            if(hd  !== ""){
                 User.findOne({email},(err,user)=>{
                     if(err){
                         return res.status(400).json({
@@ -29,13 +29,13 @@ router.post("/google/signin",async(req,res)=>{
                         if(user){
                             const token = jwt.sign({_id: user._id} , process.env.jwtSecret ,{expiresIn :'7d'});
                             
-                            const {_id , name , email } =  user;
+                            const {_id , name , email, picture } =  user;
                             res.json({
                                 token ,
-                                user : {_id , name , email }
+                                user : {_id , name , email, picture }
                             })
                         }else{
-                            let newUser = new User({name , email });
+                            let newUser = new User({name , email, picture });
                             const token = jwt.sign({_id: newUser._id} , process.env.jwtSecret ,{expiresIn :'7d'});
                             
                             newUser.save((err,data)=>{
@@ -44,10 +44,10 @@ router.post("/google/signin",async(req,res)=>{
                                         error: "Something went wrong"
                                     })
                                 }else{
-                                    const {_id , name , email } =  newUser;
+                                    const {_id , name , email, picture } =  newUser;
                                     res.json({
                                         token,
-                                        user : {_id , name , email }
+                                        user : {_id , name , email, picture }
                                     })
                                 }
                             })

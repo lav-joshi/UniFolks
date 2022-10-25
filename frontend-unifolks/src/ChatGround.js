@@ -19,8 +19,12 @@ const createHeader = () => {
 
 const ChatGround = () => {
 
-    const [selectedFriend, setSelectedFriend] = useState("");
+    const [selectedFriend, setSelectedFriend] = useState(false);
+    const [selectedFriendDetails, setSelectedFriendDetails] = useState({name : "" , email : "" , picture : ""});
     const [friends, setFriends] = useState([]);
+
+    // friends array will look like this
+    // [{name, email , picture}]
 
     // get all friends from server
     useEffect(()=>{
@@ -31,16 +35,21 @@ const ChatGround = () => {
         })    
     },[])
 
+    const handleSelectedFriend = (val) => {
+        setSelectedFriend(true)
+        setSelectedFriendDetails(val)
+    }
+
   return (
     <div class="container">
         Hello ChatMessages Ground
         {
             friends.map((val,idx)=>{
-                return <div onClick={(e) => setSelectedFriend(val)}> {val} </div>
+                return <div key = {val.email} onClick={(e) => handleSelectedFriend(val)}> {val.name} {val.email} </div>
             })
         }
         {
-            selectedFriend ?  <ChatMessages userId = {cookies.get("email")} friendId = {selectedFriend}/> :<></>
+            selectedFriend ?  <ChatMessages userId = {cookies.get("email")} friend = {selectedFriendDetails}/> :<></>
         }
     </div>
   );
