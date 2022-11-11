@@ -2,7 +2,7 @@ const express = require("express");
 const bodyParser = require('body-parser');
 const router = express.Router();
 const User = require('../models/User');
-const Chat = require('../models/Chat')
+const Edge = require('../models/Edge')
 const authUser = require('../middleware/authUser')
 const authAdmin = require('../middleware/authAdmin');
 const moment = require("moment");
@@ -32,9 +32,39 @@ router.get("/addUser" , (req,res)=>{
     })
 })
 
+router.post("/addbetween" , async (req,res) => {
+    console.log("Hello")
+    let parentId = req.body.parentId;
+    let childId  = req.body.childId;
+    let newChildId = req.body.newChildId;
+
+    await Edge.deleteOne({src : parentId, dest : childId});
+    await Edge.create({src : parentId, dest : newChildId});
+    await Edge.create({src : newChildId , dest: childId});
+
+    res.status(200).json({
+        message: "Successfully added the person in org"
+    })
+})
+
+// Add leaf node
+router.post("/addleaf" , (req,res) => {
+    let parentId = req.body.parentId;
+    let childId  = req.body.childId;
+    Edge.create({src : parentId , dest: childId}, (err, edge)=>{
+        if(err){
+            res.status(400).send({message : "Something went wrong"});
+        }else{
+            res.status(200).json({
+                message: "Successfully added the person in org"
+            })
+        }
+    })
+});
+
 // Creates the profile to the user that will the part of org.
 router.get("/create", (req,res)=>{
-    
+   
 })
 
 // Adds the tags to the user 

@@ -23,7 +23,7 @@ const adminRouter = require('./routes/admin');
 
 app.use('/api/auth', authRouter);
 app.use('/api/user', userRouter);
-app.use('/api/admin', userRouter);
+app.use('/api/admin', adminRouter);
 
 const server = http.createServer(app);
 const io = require("socket.io")(server, {

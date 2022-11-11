@@ -2,7 +2,8 @@ const express = require("express");
 const bodyParser = require('body-parser');
 const router = express.Router();
 const User = require('../models/User');
-const Chat = require('../models/Chat')
+const Chat = require('../models/Chat');
+const Edge = require('../models/Edge')
 const authUser = require('../middleware/authUser')
 const authAdmin = require('../middleware/authAdmin');
 const moment = require("moment");
@@ -97,5 +98,63 @@ router.post("/getMessages", authUser, (req,res)=> {
     })
 });
 
+// Private function to check emailId in initialNodes
+const checkUserAvailability = (initialNodes, emailId) => {
+
+    for(let i = 0; i < initialNodes.length; i++){
+        if(initialNodes[i].data.email === emailId) return false;
+    }
+    return true;
+}
+
+// Returns the tree stucture
+router.get("/getTree" , async (req, res) => {
+    let edges = await Edge.find({});
+
+    let initialEdges  = [];
+    let initialNodes = [];
+
+    for(let i = 0 ; i < edges.length; i = i + 1){
+        let src = edges[i].src;
+        let dest = edges[i].dest;
+
+        let srcUser = await User.findOne({email : src});
+        let destUser = await User.findOne({email : dest});
+        
+        if(srcUser && checkUserAvailability(initialNodes, src)){
+            initialNodes.push({
+                id: src,
+                position : { x: 0, y: 0 },
+                type: "customNode",
+                data: {
+                    image: srcUser.picture,
+                    name: srcUser.name,
+                    designation: srcUser.designation,
+                    email: srcUser.email,
+                },
+            })
+        }
+
+        if(destUser && checkUserAvailability(initialNodes, dest)){
+            initialNodes.push({
+                id: dest,
+                position : { x: 0, y: 0 },
+                type: "customNode",
+                data: {
+                    image: destUser.picture,
+                    name: destUser.name,
+                    designation: destUser.designation,
+                    email: destUser.email,
+                },
+            })
+        }
+        initialEdges.push({id : edges[i].id, source : src , target : dest , type: "step", style: { stroke: 'red' }})
+    }
+
+    res.status(200).json({
+        initialNodes,
+        initialEdges 
+    })
+})
 module.exports = router;
 
