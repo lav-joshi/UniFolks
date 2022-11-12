@@ -1,0 +1,25 @@
+.homepage{
+    min-height: 100vh;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    background-color: var(--bg-grey);
+    border: 2rem solid var(--primary-grey);
+    &-body{
+        margin-top: 10rem;
+        padding: 10rem;
+        display: flex;
+    }
+    &-tagline{
+        font-weight: 800;
+    }
+    &-bio{
+        font-size: 1.5rem;
+    }
+    .content{
+        width: 60%;
+    }
+    .media{
+        width: 40%;
+    }
+}

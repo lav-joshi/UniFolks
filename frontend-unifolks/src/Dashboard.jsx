@@ -197,9 +197,11 @@ export default function Dashboard() {
                                     alignItems="center"
                                     justifyContent="flex-end"
                                 >
-                                    <Typography noWrap>
-                                        <Box mr={2}>Welcome User!</Box>
-                                    </Typography>
+                                    <Box mr={2} noWrap>Welcome User!</Box>
+                                    <Button
+                                        variant="contained">
+                                        Add User
+                                    </Button>
                                     <Button
                                         variant="outlined"
                                         color="secondary"

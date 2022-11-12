@@ -1,0 +1,18 @@
+.navbar{
+    background-color: var(--primary-grey);
+    margin-top: 2rem;
+    color: black;
+    position: absolute;
+    width: 100%;
+    left: 0;
+    padding: 0 6rem;
+    a{
+        color: black;
+        font-weight: 800;
+        font-size: 2rem;
+    }
+    .homepage-logo{
+        height: 5rem;
+        width: 5rem;
+    }
+}

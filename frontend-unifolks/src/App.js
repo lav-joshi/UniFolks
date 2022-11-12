@@ -1,13 +1,15 @@
 import React,{Component} from 'react'
 import{ BrowserRouter as Router , Route } from 'react-router-dom';
-import Dashboard from './Dashboard';
-import Profile from './Profile';
+import Dashboard from './Dashboard.jsx';
+import Profile from './Profile.jsx';
 import "bootstrap/dist/css/bootstrap.min.css";
 import {UserProvider, UserConsumer} from './context/UserContext';
 import Cookies from 'universal-cookie';
-import ChatGround from './ChatGround';
-import HomePage from './HomePage';
+import ChatGround from './ChatGround.jsx';
+import HomePage from './HomePage.jsx';
 import "bootstrap/dist/css/bootstrap.min.css";
+import _ from './styles/main.scss';
+
 const cookies = new Cookies();
 
 class App extends Component {
