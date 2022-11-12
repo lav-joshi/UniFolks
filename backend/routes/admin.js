@@ -7,31 +7,6 @@ const authUser = require('../middleware/authUser')
 const authAdmin = require('../middleware/authAdmin');
 const moment = require("moment");
 
-// Add user the org chart
-router.get("/addUser" , (req,res)=>{
-    // parent
-    // children
-    let parentId = 'lav@gmail.com';
-    let currentUser = 'vks@iiitl.ac.in';
-    let childId = "Kush@gmail.com";
-
-    User.findOne({email : parentId}, async (err,parentUser)=>{
-        // Delete from parentChildId;
-        // Add childId to the currentUser;
-        let index = parentUser.children.indexOf(childId);
-        if(index > -1){
-            parentUser.children.splice(index,1);
-            parentUser.children.push(currentUser);
-            await parentUser.save();
-        }
-        User.findOne({email : currentUser}, async (err, user) =>{
-            user.children.push(childId)
-            await user.save();
-            res.send("Updated the tree");
-        })
-    })
-})
-
 router.post("/addbetween" , async (req,res) => {
     console.log("Hello")
     let parentId = req.body.parentId;
@@ -63,9 +38,28 @@ router.post("/addleaf" , (req,res) => {
 });
 
 // Creates the profile to the user that will the part of org.
-router.get("/create", (req,res)=>{
-   
-})
+router.post("/create", async (req,res)=>{
+
+   let user = await User.findOne({email : req.body.email})
+
+   if(user){
+        res.status(200).json({message : "User with this emailId already exists"});
+   }else{
+        User.create({name : req.body.name , email : req.body.email, designation : req.body.designation}, (err , newUser) => {
+            if(err) {
+                res.status(200).json({message : "Something went wrong"});
+            }else{
+                res.status(200).json({message : `User with mail id ${newUser.email} created`});
+            }
+        });
+    }
+});
+
+// Deletes the particular user
+router.post("/removeUser", async (req,res) => { 
+   let user = await User.deleteOne({email : req.body.email})
+   res.status(200).json({message : `User with mail id ${req.body.email} deleted`});
+});
 
 // Adds the tags to the user 
 // : Not tested yet
