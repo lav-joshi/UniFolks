@@ -2,7 +2,6 @@ import React,{Component} from 'react'
 import{ BrowserRouter as Router , Route } from 'react-router-dom';
 import Dashboard from './Dashboard.jsx';
 import Profile from './Profile.jsx';
-import "bootstrap/dist/css/bootstrap.min.css";
 import {UserProvider, UserConsumer} from './context/UserContext';
 import Cookies from 'universal-cookie';
 import ChatGround from './ChatGround.jsx';
@@ -49,8 +48,7 @@ class App extends Component {
                           
                           isAuthenticated?
                           <>
-                            <Route path="/dashboard" exact component={Dashboard} /> 
-                            <Route path="/profile" exact component={Profile} /> 
+                            <Route path="/dashboard" component={Dashboard} /> 
                             <Route path = "/chat" exact component={ChatGround}/>
                           </>: 
                           <></>

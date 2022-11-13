@@ -37,7 +37,7 @@ const io = require("socket.io")(server, {
 
   
 app.get('/', (req, res) => {
-    res.send("Hello word");
+    res.send("Server is running");
 });
 
 const PORT = process.env.PORT || 5000;

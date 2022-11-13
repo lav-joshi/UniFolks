@@ -18,6 +18,12 @@ import {
     ListItem,
     ListItemIcon,
     ListItemText,
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogContentText,
+    TextField,
+    DialogActions,
 } from "@material-ui/core";
 
 import MenuIcon from "@material-ui/icons/Menu";
@@ -30,6 +36,8 @@ import WorkIcon from "@material-ui/icons/Work";
 import { Route, Switch, Link } from "react-router-dom";
 import Cookies from "universal-cookie";
 import OrgChart from "./components/OrgChart";
+import EditOrgChart from "./components/EditOrgChart";
+import EditProfile from "./components/EditProfile";
 const cookies = new Cookies();
 
 const drawerWidth = 250;
@@ -129,7 +137,6 @@ export default function Dashboard() {
     const handleDrawerOpen = () => {
         setOpen(true);
     };
-
     const handleDrawerClose = () => {
         setOpen(false);
     };
@@ -137,9 +144,9 @@ export default function Dashboard() {
     const clicked = (e) => {
         console.log(e.target);
     };
-
     return (
         <div className={classes.root}>
+            
             <CssBaseline />
             <AppBar
                 position="fixed"
@@ -197,11 +204,7 @@ export default function Dashboard() {
                                     alignItems="center"
                                     justifyContent="flex-end"
                                 >
-                                    <Box mr={2} noWrap>Welcome User!</Box>
-                                    <Button
-                                        variant="contained">
-                                        Add User
-                                    </Button>
+                                    <Box mr={2}>Welcome User!</Box>
                                     <Button
                                         variant="outlined"
                                         color="secondary"
@@ -300,41 +303,41 @@ export default function Dashboard() {
                         </ListItem>
                     </Link>
                     <Link
-                        to="/ccpanel"
+                        to="/dashboard/editOrganization"
                         className={`${classes.toolbar} ${classes.deco}`}
                     >
                         <ListItem
                             button
-                            data-list-type="ccp"
+                            data-list-type="eoc"
                             className="li-3"
-                            key={"Client Control Panel"}
+                            key={"Edit Organization Chart"}
                         >
-                            <ListItemIcon className="li-3" data-list-type="ccp">
-                                <AccountBoxIcon data-list-type="ccp" />
+                            <ListItemIcon className="li-3" data-list-type="eoc">
+                                <AccountBoxIcon data-list-type="eoc" />
                             </ListItemIcon>
                             <ListItemText
-                                data-list-type="ccp"
-                                primary={"Client Control Panel"}
+                                data-list-type="eoc"
+                                primary={"Edit Organization Chart"}
                             />
                         </ListItem>
                     </Link>
                     <Link
-                        to="/business"
+                        to="/dashboard/editProfile"
                         className={`${classes.toolbar} ${classes.deco}`}
                     >
                         <ListItem
                             button
-                            data-list-type="business"
+                            data-list-type="editProfile"
                             className="li-3"
-                            key={"Business Panel"}
+                            key={"Edit Profile"}
                         >
                             <ListItemIcon
                                 className="li-3"
-                                data-list-type="business"
+                                data-list-type="editprofile"
                             >
-                                <WorkIcon data-list-type="business" />
+                                <WorkIcon data-list-type="editprofile" />
                             </ListItemIcon>
-                            <ListItemText primary={"Business Panel"} />
+                            <ListItemText primary={"Edit Profile"} />
                         </ListItem>
                     </Link>
                 </List>
@@ -344,7 +347,8 @@ export default function Dashboard() {
                 <div className={`${classes.toolbar}`} />
                 <Switch>
                     <Route exact path="/dashboard" component={OrgChart} />
-                    <Route exact path="/ccpanel" component={Dashboard} />
+                    <Route exact path="/dashboard/editOrganization" component={EditOrgChart} />
+                    <Route exact path="/dashboard/editProfile" component={EditProfile} />
                 </Switch>
             </main>
         </div>

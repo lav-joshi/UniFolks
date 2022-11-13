@@ -43,11 +43,11 @@ router.post("/create", async (req,res)=>{
    let user = await User.findOne({email : req.body.email})
 
    if(user){
-        res.status(200).json({message : "User with this emailId already exists"});
+        res.status(409).json({message : "User with this emailId already exists"});
    }else{
         User.create({name : req.body.name , email : req.body.email, designation : req.body.designation}, (err , newUser) => {
             if(err) {
-                res.status(200).json({message : "Something went wrong"});
+                res.status(400).json({message : "Something went wrong"});
             }else{
                 res.status(200).json({message : `User with mail id ${newUser.email} created`});
             }
