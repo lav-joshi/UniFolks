@@ -179,5 +179,9 @@ router.post("/changePicture" , async (req , res ) => {
     });
 });
 
+router.post("/editProfile" , async (req, res) => {
+    
+})
+
 module.exports = router;
 

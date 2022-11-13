@@ -3,6 +3,8 @@ import clsx from "clsx";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import "./styles/MyGlass.modules.css";
 import MyGlass from "./components/MyGlass";
+import ChatGround from "./ChatGround";
+
 import {
     Drawer,
     List,
@@ -340,6 +342,25 @@ export default function Dashboard() {
                             <ListItemText primary={"Edit Profile"} />
                         </ListItem>
                     </Link>
+                    <Link
+                        to="/dashboard/chat"
+                        className={`${classes.toolbar} ${classes.deco}`}
+                    >
+                        <ListItem
+                            button
+                            data-list-type="eoc"
+                            className="li-3"
+                            key={"Chat"}
+                        >
+                            <ListItemIcon className="li-3" data-list-type="eoc">
+                                <AccountBoxIcon data-list-type="eoc" />
+                            </ListItemIcon>
+                            <ListItemText
+                                data-list-type="eoc"
+                                primary={"Chat"}
+                            />
+                        </ListItem>
+                    </Link>
                 </List>
                 <MyGlass></MyGlass>
             </Drawer>
@@ -349,6 +370,7 @@ export default function Dashboard() {
                     <Route exact path="/dashboard" component={OrgChart} />
                     <Route exact path="/dashboard/editOrganization" component={EditOrgChart} />
                     <Route exact path="/dashboard/editProfile" component={EditProfile} />
+                    <Route exact path="/dashboard/chat" component={ChatGround} />
                 </Switch>
             </main>
         </div>

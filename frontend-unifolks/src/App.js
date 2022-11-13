@@ -49,7 +49,7 @@ class App extends Component {
                           isAuthenticated?
                           <>
                             <Route path="/dashboard" component={Dashboard} /> 
-                            <Route path = "/chat" exact component={ChatGround}/>
+                            {/* <Route path = "/chat" exact component={ChatGround}/> */}
                           </>: 
                           <></>
                       )
