@@ -9,7 +9,6 @@ const UserSchema = new mongoose.Schema({
   designation : {
     type: String,
     trim : true,
-    required: true
   },
   bio: {
     type: String,

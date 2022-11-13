@@ -45,7 +45,7 @@ router.post("/create", async (req,res)=>{
    if(user){
         res.status(409).json({message : "User with this emailId already exists"});
    }else{
-        User.create({name : req.body.name , email : req.body.email, designation : req.body.designation}, (err , newUser) => {
+        User.create({name : req.body.name , email : req.body.email, designation : req.body.designation, picture : req.body.picture}, (err , newUser) => {
             if(err) {
                 res.status(400).json({message : "Something went wrong"});
             }else{
@@ -59,6 +59,11 @@ router.post("/create", async (req,res)=>{
 router.post("/removeUser", async (req,res) => { 
    let user = await User.deleteOne({email : req.body.email})
    res.status(200).json({message : `User with mail id ${req.body.email} deleted`});
+});
+
+// Deletes the edge in the tree
+router.post("/deleteEdge" , async (req,res) => {
+
 });
 
 // Adds the tags to the user 

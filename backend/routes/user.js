@@ -7,6 +7,8 @@ const Edge = require('../models/Edge')
 const authUser = require('../middleware/authUser')
 const authAdmin = require('../middleware/authAdmin');
 const moment = require("moment");
+const {cloudinary} = require("../utils/cloudinary");
+
 
 // Get all users of the institute
 router.get("/allusers", authUser, (req,res) => {
@@ -156,5 +158,26 @@ router.get("/getTree" , async (req, res) => {
         initialEdges 
     })
 })
+
+router.post("/changePicture" , async (req , res ) => {
+
+    const x = JSON.parse(req.body.data);
+    const fileStr = x.data;
+
+    const uploadResponse = await cloudinary.uploader.upload(fileStr, {
+        upload_preset: 'ml_default',
+    });
+
+    User.findOne({email : req.body.email}, async (err , user)=> {
+        if(err){
+            res.status(400).send({message : "Something went wrong"});
+        }else{
+            user.picture = uploadResponse.secure_url;
+            await user.save();
+            res.status(200).send({imageURL: uploadResponse.secure_url , message : "Photo changed successfully"});
+        }
+    });
+});
+
 module.exports = router;
 
