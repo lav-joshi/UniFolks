@@ -9,6 +9,7 @@ import ReactFlow, {
     ConnectionLineType,
 } from "reactflow";
 import CustomNode from "./EditCustomNode.jsx";
+import ButtonEdge from './CustomEdge.jsx';
 import "reactflow/dist/style.css";
 import dagre from "dagre";
 import {
@@ -25,6 +26,7 @@ import axios from "axios";
 
 const position = { x: 0, y: 0 };
 const nodeTypes = { customNode: CustomNode };
+const edgeTypes = {buttonedge: ButtonEdge };
 const dagreGraph = new dagre.graphlib.Graph();
 dagreGraph.setDefaultEdgeLabel(() => ({}));
 
@@ -222,6 +224,7 @@ export default function EditOrgChart() {
                 onEdgesChange={onEdgesChange}
                 onConnect={onConnect}
                 nodeTypes={nodeTypes}
+                edgeTypes={edgeTypes}
                 connectionLineType={ConnectionLineType.SmoothStep}
                 fitView
                 sx={{ marginTop: "-4rem" }}
