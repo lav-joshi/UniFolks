@@ -10,6 +10,16 @@ import { Alert, makeStyles } from '@mui/material';
 import axios from 'axios';
 import avatar from '../images/avatar.webp';
 
+function convertArraytoString(arr){
+  let res = "";
+
+  for(let i = 0 ; i < arr.length; i++){
+      res+= arr[i];
+      if(i!== arr.length - 1 )
+        res += ",";
+  }
+  return res
+}
 function CustomNode({ data }) {
   // console.log(data);
     const theme = useTheme();
@@ -68,25 +78,32 @@ function CustomNode({ data }) {
       designation: data.designation,
       bio: data.bio,
       email: data.email,
-      picture: data.picture,
       contact: data.contact,  
-      urls: data.urls,
-      tags: data.tags,
+      urls: convertArraytoString(data.urls),
+      tags: convertArraytoString(data.tags),
   });
   const inputProfileHandler = (event) => {
     const { name, value } = event.target;
-    setProfileValues({ ...profileFormValues, [name]: value });
+    if(name === "urls"){
+      let urls = value.split(',');
+      for(let i = 0 ; i < urls.length ; i+=1){
+        urls[i] = urls[i].trim()
+      }
+      setProfileValues({...profileFormValues, [name] : urls})
+    }else if(name === "tags"){
+      let tags = value.split(',');
+      for(let i = 0 ; i < tags.length ; i+=1){
+        tags[i] = tags[i].trim()
+      }
+      setProfileValues({...profileFormValues, [name] : tags})
+      console.log(profileFormValues)
+    }else{
+      setProfileValues({ ...profileFormValues, [name]: value });
+    }
 };
 const handleProfileSubmit = () => {
-  if (profileFormValues.childId === "") {
-      setProfileAlert({
-          show: true,
-          content: "Please fill all the fields",
-          severity: "error",
-      });
-  } else {
       axios
-          .post("http://localhost:5000/api/admin/addleaf", profileFormValues)
+          .post("http://localhost:5000/api/user/editProfile", profileFormValues)
           .then((res) => {
               if (res.status === 200) {
                   setProfileAlert({
@@ -111,7 +128,7 @@ const handleProfileSubmit = () => {
                   severity: "error",
               });
           });
-  }
+  
 };
 
   return (
@@ -175,10 +192,6 @@ const handleProfileSubmit = () => {
       <DialogTitle>Edit User Details</DialogTitle>
                 <DialogContent>
                     <DialogContentText>Edit User Details</DialogContentText>
-                    <TextField 
-                        margin="dense"
-                        id="name"
-                    />
                     <TextField
                         autoFocus
                         margin="dense"
@@ -189,16 +202,90 @@ const handleProfileSubmit = () => {
                         variant="standard"
                         name="email"
                         value={profileFormValues.email}
+                        disabled
                         onChange={(e) => inputProfileHandler(e)}
                     />
+
+
                     <TextField
+                        autoFocus
                         margin="dense"
-                        id="name"
-                        label="Reports To"
+                        id="designation"
+                        label="Designation"
+                        type="text"
                         fullWidth
                         variant="standard"
+                        name="designation"
+                        value={profileFormValues.designation}
                         onChange={(e) => inputProfileHandler(e)}
                     />
+
+                    <TextField
+                        autoFocus
+                        margin="dense"
+                        id="bio"
+                        label="Bio"
+                        type="text"
+                        fullWidth
+                        variant="standard"
+                        name="bio"
+                        value={profileFormValues.bio}
+                        onChange={(e) => inputProfileHandler(e)}
+                    />
+
+                    <TextField
+                        autoFocus
+                        margin="dense"
+                        id="contact"
+                        label="Contact"
+                        type="text"
+                        fullWidth
+                        variant="standard"
+                        name="contact"
+                        value={profileFormValues.contact}
+                        onChange={(e) => inputProfileHandler(e)}
+                    />
+
+                      <TextField
+                        autoFocus
+                        margin="dense"
+                        id="city"
+                        label="City"
+                        type="text"
+                        fullWidth
+                        variant="standard"
+                        name="city"
+                        value={profileFormValues.city}
+                        onChange={(e) => inputProfileHandler(e)}
+                    />
+
+                    <TextField
+                        autoFocus
+                        margin="dense"
+                        id="urls"
+                        label="URLs"
+                        type="text"
+                        fullWidth
+                        variant="standard"
+                        name="urls"
+                        value={profileFormValues.urls}
+                        onChange={(e) => inputProfileHandler(e)}
+                    />
+
+                    <TextField
+                        autoFocus
+                        margin="dense"
+                        id="tags"
+                        label="Tags"
+                        type="text"
+                        fullWidth
+                        variant="standard"
+                        name="tags"
+                        value={profileFormValues.tags}
+                        onChange={(e) => inputProfileHandler(e)}
+                    />
+
+              
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleEditClose}>Cancel</Button>
