@@ -46,7 +46,6 @@ io.on('connection', (socket)=>{
     // console.log("New Web Socket Connection");
 
     socket.on('join',({email}, callback)=>{
-        console.log("Joined", email)
         socket.join(email);   
     })
 
@@ -56,8 +55,8 @@ io.on('connection', (socket)=>{
             receiver: friendId,
             message,
         }, (err, chat)=>{
-            io.to(userId).emit('message',message);
-            io.to(friendId).emit('message',message);
+            io.to(userId).emit('message',{message , userId});
+            io.to(friendId).emit('message',{message , userId});
         })
     })
 

@@ -19,30 +19,62 @@ const createHeader = () => {
 
 const ChatGround = () => {
 
-    const [selectedFriend, setSelectedFriend] = useState("");
+    const [selectedFriend, setSelectedFriend] = useState(false);
+    const [selectedFriendDetails, setSelectedFriendDetails] = useState({name : "" , email : "" , picture : ""});
     const [friends, setFriends] = useState([]);
 
-    // get all friends from server
     useEffect(()=>{
         createHeader().get("/api/user/getFriends").then((res)=>{
             setFriends(res.data.friends)
+            console.log(res.data.friends)
         }).catch((e)=>{
             
         })    
     },[])
 
+    const handleSelectedFriend = (val) => {
+        setSelectedFriend(true)
+        setSelectedFriendDetails(val)
+    }
+
   return (
-    <div class="container">
-        Hello ChatMessages Ground
-        {
-            friends.map((val,idx)=>{
-                return <div onClick={(e) => setSelectedFriend(val)}> {val} </div>
-            })
-        }
-        {
-            selectedFriend ?  <ChatMessages userId = {cookies.get("email")} friendId = {selectedFriend}/> :<></>
-        }
-    </div>
+        <div class="chatground">
+        <div class="background">
+          <div class="main-box">
+            <div class="user-lists">
+              {
+                friends.map((val, idx) => {
+                  return (
+                    <div class="user-modal">
+                      <div key = {val.email} onClick={(e) => handleSelectedFriend(val)}> {val.name} </div>
+                    </div>
+                  )
+                })
+              }
+            </div>
+            <div class="conversation-box">
+              {
+                selectedFriend ? 
+                <ChatMessages userId = {cookies.get("email")} friend = {selectedFriendDetails}/>
+                : <div class="empty-box">
+                  Kindly select a person to view messages 
+                </div>
+              }
+            </div>        
+          </div>
+        </div>
+        </div>
+    //  <div class="container">
+    //     Hello ChatMessages Ground
+    //     {
+    //         friends.map((val,idx)=>{
+    //             return <div key = {val.email} onClick={(e) => handleSelectedFriend(val)}> {val.name} {val.email} </div>
+    //         })
+    //     }
+    //     {
+    //         selectedFriend ?  <ChatMessages userId = {cookies.get("email")} friend = {selectedFriendDetails}/> :<></>
+    //     }
+    // </div>
   );
 };
 

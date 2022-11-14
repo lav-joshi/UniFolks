@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import io from "socket.io-client";
 import axios from 'axios'
 import Cookies from 'universal-cookie';
+import send from "../assets/send.png";
 
 const cookies = new Cookies();
 const createHeader = () => {
@@ -53,7 +54,7 @@ const Chat = (props) => {
     // Get all messages from the server for this friend
   useEffect(() => {
     createHeader().post("/api/user/getMessages", {userId: props.userId, friendId: props.friend.email}).then((res)=>{
-        setMessages(res.data.messages)
+      setMessages(res.data.messages)
     }).catch((e)=>{
         
     })    
@@ -61,7 +62,8 @@ const Chat = (props) => {
 
   useEffect(() => {
     socket.on("message", (message) => {
-      setMessages((messages) => [...messages, {senderName : "Lav", message : message}]);
+      console.log(message);
+      setMessages((messages) => [...messages, {sender : message.userId ,message : message.message}]);
     });
   }, [props]);
 
@@ -75,7 +77,7 @@ const Chat = (props) => {
 
   return (
     <>
-      <div>Chat Page {props.userId} {props.friend.email}</div>
+      {/* <div>Chat Page {props.userId} {props.friend.name}</div> */}
       <div className="conv-wrapper">
         <div className="conversations">
           {
@@ -83,20 +85,16 @@ const Chat = (props) => {
               return (
                 <>
                 {
-                    val.message
-                }
-                {/* {
-                  (val.senderName == name)?
+                  (val.sender == cookies.get("email"))?
                     <div class="message-box user" key={i} >
-                      <span class="sender-name user">You</span>
                       <span class="message user">{val.message}</span>
+                      {/* Time lagana hain  */}
                     </div>
                     :
                     <div className="message-box other-user">
-                      <span class="sender-name other-user">{val.senderName}</span>
                       <span class="message other-user">{val.message}</span>
                     </div>
-                } */}
+                }
                 </>
               );
             })
@@ -111,7 +109,7 @@ const Chat = (props) => {
           placeholder="Write Message... "
           onChange={(e) => setMessage(e.target.value)}
         />
-        <button id="send-button" type="submit"><i class="fa fa-paper-plane" aria-hidden="true">Send</i></button>
+        <button id="send-button" type="submit"><img src={send} style={{width:10, height:10}} alt="Send"/></button>
       </form>
     </>
   );
