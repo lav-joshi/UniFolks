@@ -8,7 +8,7 @@ import ReactFlow, {
     addEdge,
     ConnectionLineType,
 } from "reactflow";
-import CustomNode from "./EditCustomNode.jsx";
+import CustomNode from "./CustomNode.jsx";
 import ButtonEdge from './CustomEdge.jsx';
 import "reactflow/dist/style.css";
 import dagre from "dagre";
@@ -26,7 +26,8 @@ import axios from "axios";
 
 const position = { x: 0, y: 0 };
 const nodeTypes = { customNode: CustomNode };
-const edgeTypes = {buttonedge: ButtonEdge };
+const edgeTypes = {buttonedge: 'smoothStep' };
+
 const dagreGraph = new dagre.graphlib.Graph();
 dagreGraph.setDefaultEdgeLabel(() => ({}));
 
@@ -68,26 +69,23 @@ const getLayoutedElements = (nodes, edges, direction = "TB") => {
 export default function EditOrgChart() {
     const [nodes, setNodes, onNodesChange] = useNodesState([]);
     const [edges, setEdges, onEdgesChange] = useEdgesState([]);
-
-    const getTree = () => {
-        axios
-        .get("http://localhost:5000/api/user/getTree")
-        .then((res) => {
-            console.log(res.data);
-            const { nodes, edges } = getLayoutedElements(
-                res.data.initialNodes,
-                res.data.initialEdges
-            );
-            setNodes(nodes);
-            setEdges(edges);
-            console.log(nodes);
-        })
-        .catch(({ response }) => {
-            console.log(response.data.message);
-        });
-    }
     useEffect(() => {
-        getTree();
+        axios
+            .get("http://localhost:5000/api/user/getTree")
+            .then((res) => {
+                console.log(res.data);
+                const { nodes, edges } = getLayoutedElements(
+                    res.data.initialNodes,
+                    res.data.initialEdges
+                );
+                edges.forEach((edge) => edge.type = "smoothstep");
+                setNodes(nodes);
+                setEdges(edges);
+                console.log(nodes);
+            })
+            .catch(({ response }) => {
+                console.log(response.data.message);
+            });
     }, []);
     const onConnect = useCallback(
         (params) =>
@@ -165,62 +163,7 @@ export default function EditOrgChart() {
 
     return (
         <div style={{ height: "80vh", width: "100%" }}>
-            <Dialog open={alertData.show}>
-                {alertData.show? <Alert variant="outlined" onClose={() => {setAlert({show: false})}} severity={alertData.severity} >
-                    {alertData.content}
-                </Alert> :
-            <></>}
-            </Dialog>
-            <Dialog open={openModal} onClose={handleModalClose}>
-                <DialogTitle>Add a new designation</DialogTitle>
-                <DialogContent>
-                    <DialogContentText>Create a new User</DialogContentText>
-
-                    <TextField
-                        autoFocus
-                        margin="dense"
-                        id="name"
-                        label="Enter Name"
-                        fullWidth
-                        variant="standard"
-                        name="name"
-                        value={formValues.name}
-                        onChange={(e) => inputChangeHandler(e)}
-                    />
-                    <TextField
-                        margin="dense"
-                        id="name"
-                        label="Designation"
-                        fullWidth
-                        variant="standard"
-                        name="designation"
-                        onChange={(e) => inputChangeHandler(e)}
-                    />
-                    
-                    <TextField
-                        margin="dense"
-                        id="name"
-                        label="Email Address"
-                        type="email"
-                        name="email"
-                        fullWidth
-                        variant="standard"
-                        onChange={(e) => inputChangeHandler(e)}
-                    />
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleModalClose}>Cancel</Button>
-                    <Button onClick={handleSubmit}>Submit</Button>
-                </DialogActions>
-            </Dialog>
-            <Button
-                variant="contained"
-                onClick={handleModalOpen}
-                className="react-flow__button"
-                sx={{ position: "absolute", top: "10px" }}
-            >
-                Add User
-            </Button>
+           
             <ReactFlow
                 nodes={nodes}
                 edges={edges}
@@ -228,7 +171,6 @@ export default function EditOrgChart() {
                 onEdgesChange={onEdgesChange}
                 onConnect={onConnect}
                 nodeTypes={nodeTypes}
-                edgeTypes={edgeTypes}
                 connectionLineType={ConnectionLineType.SmoothStep}
                 fitView
                 sx={{ marginTop: "-4rem" }}

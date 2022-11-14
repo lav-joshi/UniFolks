@@ -5,14 +5,15 @@ import { Box, Card, CardContent, Typography, CardMedia, Button, IconButton, Dial
 import {useTheme } from "@material-ui/core/styles";
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import EditIcon from '@material-ui/icons/Edit';
-
+import Cookies from "universal-cookie";
 import { Alert, makeStyles } from '@mui/material';
 import axios from 'axios';
 import avatar from '../images/avatar.webp';
+const cookies = new Cookies();
 
 function convertArraytoString(arr){
   let res = "";
-
+  if(!arr) return res
   for(let i = 0 ; i < arr.length; i++){
       res+= arr[i];
       if(i!== arr.length - 1 )
@@ -83,24 +84,27 @@ function CustomNode({ data }) {
       tags: convertArraytoString(data.tags),
   });
   const inputProfileHandler = (event) => {
-    const { name, value } = event.target;
-    if(name === "urls"){
-      let urls = value.split(',');
-      for(let i = 0 ; i < urls.length ; i+=1){
-        urls[i] = urls[i].trim()
+      const { name, value } = event.target;
+      if (name === "urls") {
+          let urls = value.split(",");
+          if (urls && urls.length) {
+              for (let i = 0; i < urls.length; i += 1) {
+                  urls[i] = urls[i].trim();
+              }
+              setProfileValues({ ...profileFormValues, [name]: urls });
+          }
+      } else if (name === "tags") {
+          let tags = value.split(",");
+          if (tags && tags.length) {
+              for (let i = 0; i < tags.length; i += 1) {
+                  tags[i] = tags[i].trim();
+              }
+              setProfileValues({ ...profileFormValues, [name]: tags });
+          }
+      } else {
+          setProfileValues({ ...profileFormValues, [name]: value });
       }
-      setProfileValues({...profileFormValues, [name] : urls})
-    }else if(name === "tags"){
-      let tags = value.split(',');
-      for(let i = 0 ; i < tags.length ; i+=1){
-        tags[i] = tags[i].trim()
-      }
-      setProfileValues({...profileFormValues, [name] : tags})
-      console.log(profileFormValues)
-    }else{
-      setProfileValues({ ...profileFormValues, [name]: value });
-    }
-};
+  };
 const handleProfileSubmit = () => {
       axios
           .post("http://localhost:5000/api/user/editProfile", profileFormValues)
@@ -130,7 +134,50 @@ const handleProfileSubmit = () => {
           });
   
 };
+  // Edit profile image
+  const [openImageModal, setImageModal] = useState(false);
+  const handleOpenImageModal = () => setImageModal(true);
+  const handleCloseImageModal = () => setImageModal(false);
+  const [file, setFile] = useState();
+  const [base64decoded, setBAse64Decoded] = useState("");
+  const createHeader = () => {
+    const authAxios = axios.create({
+      baseURL: "http://localhost:5000",
+      headers: {
+        Authorization: `Bearer ${cookies.get("token")}`,
+        email: cookies.get("email"),
+        "Content-Type": "application/json",
+      },
+    });
+    return authAxios;
+  };
+  const handleImageSubmit = (event) => {
+    event.preventDefault();
 
+    const x = {
+      // Here change email to current user
+      email: data.email,
+      data: base64decoded,
+    };
+
+    createHeader(cookies.get("token"))
+      .post("/api/user/changePicture", x)
+      .then((res) => {
+        setFile();
+        setBAse64Decoded();
+      })
+      .then(() => setImageModal(false))
+      .catch((e) => {});
+  }
+  const handleFileInput = (event) => {
+    const selectedfile = event.target.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(selectedfile);
+    reader.onloadend = () => {
+      setBAse64Decoded(JSON.stringify({ data: reader.result }));
+      setFile(selectedfile);
+    };
+  };
   return (
     <div>
       <Dialog open={alertData.show}>
@@ -311,11 +358,51 @@ const handleProfileSubmit = () => {
           <br></br>
         </CardContent>
         
+        <Dialog open={openImageModal} onClose={handleCloseImageModal}>
+          <DialogTitle>Edit User Picture</DialogTitle>
+            <DialogContent>
+            <CardMedia
+                  component="img"
+                  style={{ width: 100,}}
+                  image={data.picture? data.picture: avatar}
+                  alt="Director"
+                  onClick={handleOpenImageModal}
+                />
+            <form onSubmit={handleImageSubmit}>
+              <div className="mb-3">
+                <label for="exampleFormControlInput1" className="form-label">
+                  <b>Update user's Profile Picture</b>{" "}
+                </label>
+                <input
+                  type="file"
+                  onChange={handleFileInput}
+                  className="form-control"
+                  id="exampleFormControlInput1"
+                  placeholder="Attach File"
+                  required
+                />
+              </div>
+              <button
+                type="submit"
+                class="btn btn-primary"
+                style={{ "margin-bottom": 10 }}
+              >
+                {" "}
+                Submit
+              </button>
+            </form>
+            </DialogContent>
+              <DialogActions>
+              
+                <Button onClick={handleCloseImageModal}>Cancel</Button>
+              </DialogActions>
+        </Dialog>
       <CardMedia
         component="img"
         style={{ width: 90, marginBottom: "-1rem" }}
         image={data.picture? data.picture: avatar}
-        alt="Director"
+        alt={data.designation}
+        onClick={handleOpenImageModal}
       />
       </Box>
       <Box sx={{position: "absolute", left: "50%", transform: "translate(-50%, -100%)",}}>

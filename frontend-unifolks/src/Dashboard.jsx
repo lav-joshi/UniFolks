@@ -16,16 +16,9 @@ import {
     IconButton,
     Box,
     Grid,
-    Button,
     ListItem,
     ListItemIcon,
     ListItemText,
-    Dialog,
-    DialogTitle,
-    DialogContent,
-    DialogContentText,
-    TextField,
-    DialogActions,
 } from "@material-ui/core";
 
 import MenuIcon from "@material-ui/icons/Menu";
@@ -158,7 +151,7 @@ export default function Dashboard() {
                 })}
             >
                 <Toolbar>
-                    <Grid container>
+                    <Grid container >
                         <Grid item xs={6} md={5}>
                             <Box
                                 display="flex"
@@ -195,7 +188,7 @@ export default function Dashboard() {
                                 </Switch>
                             </Box>
                         </Grid>
-                        <Grid
+                        {/* <Grid
                             style={{ alignSelf: "center" }}
                             item
                             xs={6}
@@ -222,7 +215,7 @@ export default function Dashboard() {
                             ) : (
                                 <></>
                             )}
-                        </Grid>
+                        </Grid> */}
                     </Grid>
                 </Toolbar>
             </AppBar>
@@ -275,7 +268,7 @@ export default function Dashboard() {
                 <Box bgcolor="secondary.light">
                     <Divider className={`${classes.divi}`} light={true} />
                 </Box>
-                <List className={classes.sidebarContent}>
+                <List className={classes.sidebarContent} >
                     <Link
                         to="/dashboard"
                         className={`li-1 ${classes.toolbar} ${classes.deco}`}
