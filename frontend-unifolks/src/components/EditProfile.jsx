@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+
 import axios from "axios";
 import Cookies from "universal-cookie";
 import { styled } from '@mui/material/styles';
@@ -6,6 +7,11 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import { TextField } from "@material-ui/core";
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+
 
 import image1 from "../images/20943587 (1) 1.png";
 const cookies = new Cookies();
@@ -62,6 +68,16 @@ export default function EditProfile() {
       .catch((e) => {});
   };
 
+  
+    const [age, setAge] = React.useState('');
+  
+    const handleChange = (event) => {
+      setAge(event.target.value);
+    };
+
+
+
+
   return (
     <div>
       <Box sx={{ flexGrow: 1 }}>
@@ -105,6 +121,54 @@ export default function EditProfile() {
           label="Required"
           defaultValue="Enter Designation"
         />
+        <TextField
+          required
+          id="outlined-required"
+          label="Required"
+          defaultValue="Enter your bio"
+        />
+      </div>
+      <div>
+      <TextField
+          required
+          id="outlined-required"
+          label="Required"
+          defaultValue="Enter taga"
+        />
+        <TextField
+          required
+          id="outlined-required"
+          label="Required"
+          defaultValue="Enter anny url"
+        />
+      </div>
+      <div>
+      <Box sx={{ minWidth: 120 }}>
+      <FormControl fullWidth>
+        <InputLabel id="demo-simple-select-label">Blood Group</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={age}
+          label="Age"
+          onChange={handleChange}
+        >
+    <MenuItem value="A positive">A Positive</MenuItem>
+    <MenuItem value="A Negative">A Negative</MenuItem>
+    <MenuItem value="A Unknown">A Unknown</MenuItem>
+    <MenuItem value="B Positive">B Positive</MenuItem>
+    <MenuItem value="B Negative">B Negative</MenuItem>
+    <MenuItem value="B Unknown">B Unknown</MenuItem>
+    <MenuItem value="AB positive">AB Positive</MenuItem>
+    <MenuItem value="AB Negative">AB Negative</MenuItem>
+    <MenuItem value="AB Unknown">AB Unknown</MenuItem>
+    <MenuItem value="O Positive">O Positive</MenuItem>
+    <MenuItem value="O Negative">O Negative</MenuItem>
+    <MenuItem value="O Unknown">O Unknown</MenuItem>
+    <MenuItem value="Unknown">Unknown</MenuItem>
+        </Select>
+      </FormControl>
+    </Box>
       </div>
     </Box>
           </Item>
