@@ -105,7 +105,7 @@ const initialNodes = [
 ];
 const nodeTypes = { customNode: CustomNode };
 const initialEdges = [
-    { id: "e1-2", source: "1", target: "2", type: "step", style: { stroke: 'red' }},
+    { id: "e1-2", source: "1", target: "2", type: "smoothstep", style: { stroke: 'red' }},
     { id: "e1-3", source: "1", target: "3" , type: "step", style: { stroke: 'red' }},
     { id: "e2-4", source: "2", target: "4" , type: "step", style: { stroke: 'red' }},
     { id: "e2-5", source: "2", target: "5" , type: "step", style: { stroke: 'red' }},

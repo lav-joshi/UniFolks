@@ -11,6 +11,7 @@ import axios from 'axios';
 import avatar from '../images/avatar.webp';
 
 function CustomNode({ data }) {
+  // console.log(data);
     const theme = useTheme();
   const onChange = useCallback((evt) => {
     console.log(evt.target.value);

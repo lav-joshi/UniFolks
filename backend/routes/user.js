@@ -154,7 +154,7 @@ router.get("/getTree" , async (req, res) => {
                 },
             })
         }
-        initialEdges.push({id : edges[i].id, source : src , target : dest , type: "step", style: { stroke: 'red' }})
+        initialEdges.push({id : edges[i].id, source : src , target : dest , type: "buttonedge", style: { stroke: 'red' }})
     }
 
     res.status(200).json({
