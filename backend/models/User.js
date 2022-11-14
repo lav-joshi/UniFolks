@@ -27,6 +27,14 @@ const UserSchema = new mongoose.Schema({
     type: Number,
     trim: true,
   },
+  bloodGroup : {
+    type: String,
+    trim : true
+  },
+  city : {
+    type: String,
+    trim : true
+  },
   urls: [String],
   children: [String],
   tags: [String],

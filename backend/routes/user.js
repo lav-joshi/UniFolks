@@ -184,8 +184,11 @@ router.post("/changePicture" , async (req , res ) => {
 });
 
 router.post("/editProfile" , async (req, res) => {
-    
-})
+    let doc = await User.findOneAndUpdate({email : req.body.email}, req.body);
+    res.status(200).json({
+        message : "Profile updated"
+    })
+});
 
 module.exports = router;
 
