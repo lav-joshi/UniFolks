@@ -40,6 +40,7 @@ import Cookies from "universal-cookie";
 import OrgChart from "./components/OrgChart";
 import EditOrgChart from "./components/EditOrgChart";
 import EditProfile from "./components/EditProfile";
+import Search from "./components/Search";
 const cookies = new Cookies();
 
 const drawerWidth = 250;
@@ -348,19 +349,59 @@ export default function Dashboard() {
                     >
                         <ListItem
                             button
-                            data-list-type="eoc"
+                            data-list-type="chat"
                             className="li-3"
                             key={"Chat"}
                         >
-                            <ListItemIcon className="li-3" data-list-type="eoc">
-                                <AccountBoxIcon data-list-type="eoc" />
+                            <ListItemIcon className="li-3" data-list-type="chat">
+                                <AccountBoxIcon data-list-type="chat" />
                             </ListItemIcon>
                             <ListItemText
-                                data-list-type="eoc"
+                                data-list-type="chat"
                                 primary={"Chat"}
                             />
                         </ListItem>
                     </Link>
+                    <Link
+                        to="/dashboard/search"
+                        className={`${classes.toolbar} ${classes.deco}`}
+                    >
+                        <ListItem
+                            button
+                            data-list-type="search"
+                            className="li-3"
+                            key={"Search"}
+                        >
+                            <ListItemIcon className="li-3" data-list-type="search">
+                                <AccountBoxIcon data-list-type="search" />
+                            </ListItemIcon>
+                            <ListItemText
+                                data-list-type="search"
+                                primary={"Search"}
+                            />
+                        </ListItem>
+                    </Link>
+
+                    <Link
+                        to="/dashboard/eduon"
+                        className={`${classes.toolbar} ${classes.deco}`}
+                    >
+                        <ListItem
+                            button
+                            data-list-type="eduon"
+                            className="li-3"
+                            key={"EduOn"}
+                        >
+                            <ListItemIcon className="li-3" data-list-type="eduon">
+                                <AccountBoxIcon data-list-type="eduon" />
+                            </ListItemIcon>
+                            <ListItemText
+                                data-list-type="eduon"
+                                primary={"Eduon"}
+                            />
+                        </ListItem>
+                    </Link>
+
                 </List>
                 <MyGlass></MyGlass>
             </Drawer>
@@ -371,6 +412,11 @@ export default function Dashboard() {
                     <Route exact path="/dashboard/editOrganization" component={EditOrgChart} />
                     <Route exact path="/dashboard/editProfile" component={EditProfile} />
                     <Route exact path="/dashboard/chat" component={ChatGround} />
+                    <Route exact path="/dashboard/search" component={Search} />
+                    <Route path="/dashboard/eduon" component={()=>{
+                        window.location.href = 'http://localhost:4000';
+                        return null;
+                    }}/>
                 </Switch>
             </main>
         </div>
