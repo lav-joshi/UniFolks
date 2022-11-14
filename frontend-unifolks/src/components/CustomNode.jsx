@@ -11,7 +11,7 @@ import { Alert, makeStyles } from '@mui/material';
 import avatar from '../images/avatar.webp';
 
 function CustomNode({ data }) {
-
+  console.log(data);
   return (
     <div>
       <Handle type="target" position={Position.Top} />
@@ -34,7 +34,7 @@ function CustomNode({ data }) {
         component="img"
         style={{ width: 90 }}
         image={data.picture? data.picture: avatar}
-        alt="Director"
+        alt={data.designation}
       />
       </Box>
     </Card>

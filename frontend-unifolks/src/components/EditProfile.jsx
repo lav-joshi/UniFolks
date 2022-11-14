@@ -183,7 +183,7 @@ export default function EditProfile() {
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label for="exampleFormControlInput1" className="form-label">
-            <b>Choose DP 😉 </b>{" "}
+            <b>Choose your Profile Picture</b>{" "}
           </label>
           <input
             type="file"

@@ -68,22 +68,26 @@ const getLayoutedElements = (nodes, edges, direction = "TB") => {
 export default function EditOrgChart() {
     const [nodes, setNodes, onNodesChange] = useNodesState([]);
     const [edges, setEdges, onEdgesChange] = useEdgesState([]);
-    useEffect(() => {
+
+    const getTree = () => {
         axios
-            .get("http://localhost:5000/api/user/getTree")
-            .then((res) => {
-                console.log(res.data);
-                const { nodes, edges } = getLayoutedElements(
-                    res.data.initialNodes,
-                    res.data.initialEdges
-                );
-                setNodes(nodes);
-                setEdges(edges);
-                console.log(nodes);
-            })
-            .catch(({ response }) => {
-                console.log(response.data.message);
-            });
+        .get("http://localhost:5000/api/user/getTree")
+        .then((res) => {
+            console.log(res.data);
+            const { nodes, edges } = getLayoutedElements(
+                res.data.initialNodes,
+                res.data.initialEdges
+            );
+            setNodes(nodes);
+            setEdges(edges);
+            console.log(nodes);
+        })
+        .catch(({ response }) => {
+            console.log(response.data.message);
+        });
+    }
+    useEffect(() => {
+        getTree();
     }, []);
     const onConnect = useCallback(
         (params) =>

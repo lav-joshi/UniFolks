@@ -78,6 +78,7 @@ export default function EditOrgChart() {
                     res.data.initialNodes,
                     res.data.initialEdges
                 );
+                edges.forEach((edge) => edge.type = "smoothstep");
                 setNodes(nodes);
                 setEdges(edges);
                 console.log(nodes);
