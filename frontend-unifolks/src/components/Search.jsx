@@ -68,5 +68,8 @@ export default function Search(){
         setFilteredUsers(users) 
     },[bloodGroup, city, name, tags])
 
-    return (<>This is search Page</>)
+    return (<>
+    
+        
+    </>)
 }

@@ -12,7 +12,7 @@ import avatar from '../images/avatar.webp';
 
 function convertArraytoString(arr){
   let res = "";
-
+  if(!arr) return res
   for(let i = 0 ; i < arr.length; i++){
       res+= arr[i];
       if(i!== arr.length - 1 )
@@ -73,6 +73,7 @@ function CustomNode({ data }) {
       content: "",
       severity: "",
   });
+  console.log(data)
   const [profileFormValues, setProfileValues] = useState({
       name: data.name,
       designation: data.designation,
@@ -82,20 +83,25 @@ function CustomNode({ data }) {
       urls: convertArraytoString(data.urls),
       tags: convertArraytoString(data.tags),
   });
+  console.log(profileFormValues);
   const inputProfileHandler = (event) => {
     const { name, value } = event.target;
     if(name === "urls"){
       let urls = value.split(',');
-      for(let i = 0 ; i < urls.length ; i+=1){
-        urls[i] = urls[i].trim()
+      if(urls && urls.length){
+        for(let i = 0 ; i < urls.length ; i+=1){
+          urls[i] = urls[i].trim()
+        } 
+        setProfileValues({...profileFormValues, [name] : urls})
       }
-      setProfileValues({...profileFormValues, [name] : urls})
     }else if(name === "tags"){
       let tags = value.split(',');
+      if(tags && tags.length){
       for(let i = 0 ; i < tags.length ; i+=1){
         tags[i] = tags[i].trim()
       }
       setProfileValues({...profileFormValues, [name] : tags})
+    }
       console.log(profileFormValues)
     }else{
       setProfileValues({ ...profileFormValues, [name]: value });
