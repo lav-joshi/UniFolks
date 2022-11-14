@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import ReactFlow, {
     MiniMap,
     Controls,
@@ -24,154 +24,12 @@ import { Alert } from "@mui/material";
 import axios from "axios";
 
 const position = { x: 0, y: 0 };
-const initialNodes = [
-    {
-        id: "1",
-        position,
-        type: "customNode",
-        data: {
-            image: "https://raw.githubusercontent.com/harshitg00/college-peeps/main/Faculty/Dr. Arun Mohan Sherry.png",
-            name: "Dr. Arun Mohan Sherry",
-            designation: "Director",
-            email: "director@iiitl.ac.in",
-        },
-    },
-    {
-        id: "2",
-        position,
-        type: "customNode",
-        data: {
-            image: "https://raw.githubusercontent.com/harshitg00/college-peeps/main/Faculty/DR.%20DHANANJOY%20DEY.png",
-            name: "Dr. Dhananjoy Dey",
-            designation: "Dean",
-            email: "director@iiitl.ac.in",
-        },
-    },
-    {
-        id: "3",
-        type: "customNode",
-        position,
-        data: {
-            image: "https://raw.githubusercontent.com/harshitg00/college-peeps/main/Faculty/Dr. Vishal Krishna Singh.png",
-            name: "Dr. Vishal Krishna Singh",
-            designation: "Deputy Registrar",
-            email: "director@iiitl.ac.in",
-        },
-    },
-    {
-        id: "4",
-        type: "customNode",
-        position,
-        data: {
-            image: "https://raw.githubusercontent.com/harshitg00/college-peeps/main/Faculty/Dr. Mainak Adhikari.png",
-            name: "Dr. Mainak Adhikari",
-            designation: "HOD CS",
-            email: "director@iiitl.ac.in",
-        },
-    },
-    {
-        id: "5",
-        type: "customNode",
-        position,
-        data: {
-            image: "https://raw.githubusercontent.com/harshitg00/college-peeps/main/Faculty/Dr. Deepshikha Agarwal.png",
-            name: "Dr. Deepshikha Agarwal",
-            designation: "HOD IT",
-            email: "director@iiitl.ac.in",
-        },
-    },
-    {
-        id: "6",
-        type: "customNode",
-        position,
-        data: {
-            image: "https://raw.githubusercontent.com/harshitg00/college-peeps/main/Faculty/Dr. Deepshikha Agarwal.png",
-            name: "Dr. Deepshikha Agarwal",
-            designation: "One more aise hi",
-            email: "director@iiitl.ac.in",
-        },
-    },
-    {
-        id: "7",
-        type: "customNode",
-        position,
-        data: {
-            image: "https://raw.githubusercontent.com/harshitg00/college-peeps/main/Faculty/Dr. Deepshikha Agarwal.png",
-            name: "Dr. Deepshikha Agarwal",
-            designation: "One more aise hi",
-            email: "director@iiitl.ac.in",
-        },
-    },
-    {
-        id: "8",
-        type: "customNode",
-        position,
-        data: {
-            image: "https://raw.githubusercontent.com/harshitg00/college-peeps/main/Faculty/Dr. Deepshikha Agarwal.png",
-            name: "Dr. Deepshikha Agarwal",
-            designation: "One more aise hi",
-            email: "director@iiitl.ac.in",
-        },
-    },
-];
 const nodeTypes = { customNode: CustomNode };
-const initialEdges = [
-    {
-        id: "e1-2",
-        source: "1",
-        target: "2",
-        type: "step",
-        style: { stroke: "red" },
-    },
-    {
-        id: "e1-3",
-        source: "1",
-        target: "3",
-        type: "step",
-        style: { stroke: "red" },
-    },
-    {
-        id: "e2-4",
-        source: "2",
-        target: "4",
-        type: "step",
-        style: { stroke: "red" },
-    },
-    {
-        id: "e2-5",
-        source: "2",
-        target: "5",
-        type: "step",
-        style: { stroke: "red" },
-    },
-    {
-        id: "e2-6",
-        source: "2",
-        target: "6",
-        type: "step",
-        style: { stroke: "red" },
-    },
-    {
-        id: "e3-7",
-        source: "3",
-        target: "7",
-        type: "step",
-        style: { stroke: "red" },
-    },
-    {
-        id: "e3-8",
-        source: "3",
-        target: "8",
-        type: "step",
-        style: { stroke: "red" },
-    },
-];
-
 const dagreGraph = new dagre.graphlib.Graph();
 dagreGraph.setDefaultEdgeLabel(() => ({}));
 
 const nodeWidth = 250;
-const nodeHeight = 130;
+const nodeHeight = 160;
 
 const getLayoutedElements = (nodes, edges, direction = "TB") => {
     const isHorizontal = direction === "LR";
@@ -205,15 +63,26 @@ const getLayoutedElements = (nodes, edges, direction = "TB") => {
     return { nodes, edges };
 };
 
-const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(
-    initialNodes,
-    initialEdges
-);
-
 export default function EditOrgChart() {
-    const [nodes, setNodes, onNodesChange] = useNodesState(layoutedNodes);
-    const [edges, setEdges, onEdgesChange] = useEdgesState(layoutedEdges);
-
+    const [nodes, setNodes, onNodesChange] = useNodesState([]);
+    const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+    useEffect(() => {
+        axios
+            .get("http://localhost:5000/api/user/getTree")
+            .then((res) => {
+                console.log(res.data);
+                const { nodes, edges } = getLayoutedElements(
+                    res.data.initialNodes,
+                    res.data.initialEdges
+                );
+                setNodes(nodes);
+                setEdges(edges);
+                console.log(nodes);
+            })
+            .catch(({ response }) => {
+                console.log(response.data.message);
+            });
+    }, []);
     const onConnect = useCallback(
         (params) =>
             setEdges((eds) =>
@@ -232,7 +101,7 @@ export default function EditOrgChart() {
         (direction) => {
             const { nodes: layoutedNodes, edges: layoutedEdges } =
                 getLayoutedElements(nodes, edges, direction);
-
+    
             setNodes([...layoutedNodes]);
             setEdges([...layoutedEdges]);
         },
@@ -283,12 +152,19 @@ export default function EditOrgChart() {
                 });
         }
     };
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => {
+        setOpen(true);
+    };
+
     return (
         <div style={{ height: "80vh", width: "100%" }}>
-            {alertData.show? <Alert variant="outlined" onClose={() => {setAlert({show: false})}} severity={alertData.severity} >
-                {alertData.content}
-            </Alert> :
+            <Dialog open={alertData.show}>
+                {alertData.show? <Alert variant="outlined" onClose={() => {setAlert({show: false})}} severity={alertData.severity} >
+                    {alertData.content}
+                </Alert> :
             <></>}
+            </Dialog>
             <Dialog open={openModal} onClose={handleModalClose}>
                 <DialogTitle>Add a new designation</DialogTitle>
                 <DialogContent>
@@ -314,6 +190,7 @@ export default function EditOrgChart() {
                         name="designation"
                         onChange={(e) => inputChangeHandler(e)}
                     />
+                    
                     <TextField
                         margin="dense"
                         id="name"
@@ -336,7 +213,6 @@ export default function EditOrgChart() {
                 className="react-flow__button"
                 sx={{ position: "absolute", top: "10px" }}
             >
-                {" "}
                 Add User
             </Button>
             <ReactFlow
@@ -352,7 +228,6 @@ export default function EditOrgChart() {
             >
                 <MiniMap />
                 <Controls />
-
                 <Background />
             </ReactFlow>
         </div>

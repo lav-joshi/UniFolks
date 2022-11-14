@@ -143,10 +143,14 @@ router.get("/getTree" , async (req, res) => {
                 position : { x: 0, y: 0 },
                 type: "customNode",
                 data: {
-                    image: destUser.picture,
                     name: destUser.name,
                     designation: destUser.designation,
+                    bio: destUser.bio,
                     email: destUser.email,
+                    picture: destUser.picture,
+                    contact: destUser.contact,
+                    urls: destUser.urls,
+                    tags: destUser.tags,
                 },
             })
         }
