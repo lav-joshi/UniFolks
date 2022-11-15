@@ -25,7 +25,8 @@ router.get("/allusers", authUser, (req,res) => {
 
 // Returns the user information .
 // Params: key can be id or email and value should be corresponding to that in body.
-router.get("/getProfile/:key", (req, res)=> {
+router.post("/getProfile/:key", (req, res)=> {
+    console.log(req.body);
     let key = req.params['key'];
     User.findOne({key : req.body.value},async (err, user)=>{
         if(err) {

@@ -11,7 +11,6 @@ import { Alert, makeStyles } from '@mui/material';
 import avatar from '../images/avatar.webp';
 
 function CustomNode({ data }) {
-  console.log(data);
   return (
     <div>
       <Handle type="target" position={Position.Top} />

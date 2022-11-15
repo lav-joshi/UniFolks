@@ -73,7 +73,6 @@ export default function EditOrgChart() {
         axios
             .get("http://localhost:5000/api/user/getTree")
             .then((res) => {
-                console.log(res.data);
                 const { nodes, edges } = getLayoutedElements(
                     res.data.initialNodes,
                     res.data.initialEdges
