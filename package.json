@@ -7,7 +7,7 @@
     "dev": "cd backend && npm run dev",
     "client": "cd frontend-unifolks && npm start",
     "install-all": "cd backend && npm install && cd ../frontend-unifolks && npm install",
-    "start" : "cd backend && npm install && npm start"
+    "start" : "npm run install-all && cd frontend-unifolks && npm run build && cd ../backend && npm start"
   },
   "repository": {
     "type": "git",
