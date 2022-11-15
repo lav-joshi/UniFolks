@@ -24,9 +24,12 @@ import {
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import DashboardIcon from "@material-ui/icons/Dashboard";
+import InsertChartIcon from "@material-ui/icons/InsertChart";
+import SettingsIcon from "@material-ui/icons/Settings";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
-import WorkIcon from "@material-ui/icons/Work";
+import ChatIcon from "@material-ui/icons/Chat";
+import SearchIcon from "@material-ui/icons/Search";
+import SchoolIcon from '@material-ui/icons/School';
 
 import { Route, Switch, Link } from "react-router-dom";
 import Cookies from "universal-cookie";
@@ -252,7 +255,7 @@ export default function Dashboard() {
                                 className="sidebar-li"
                                 data-list-type="dash"
                             >
-                                <DashboardIcon
+                                <InsertChartIcon
                                     className="sidebar-icon"
                                     data-list-type="dash"
                                 />
@@ -276,7 +279,7 @@ export default function Dashboard() {
                             key={"Edit Organization Chart"}
                         >
                             <ListItemIcon className="li-3" data-list-type="eoc">
-                                <AccountBoxIcon data-list-type="eoc" className="sidebar-icon"/>
+                                <SettingsIcon data-list-type="eoc" className="sidebar-icon"/>
                             </ListItemIcon>
                             <ListItemText
                                 data-list-type="eoc"
@@ -299,7 +302,7 @@ export default function Dashboard() {
                                 className="li-3"
                                 data-list-type="editprofile"
                             >
-                                <WorkIcon data-list-type="editprofile" className="sidebar-icon"/>
+                                <AccountBoxIcon data-list-type="editprofile" className="sidebar-icon"/>
                             </ListItemIcon>
                             <ListItemText primary={"Edit Profile"} />
                         </ListItem>
@@ -319,7 +322,7 @@ export default function Dashboard() {
                                 className="li-3"
                                 data-list-type="chat"
                             >
-                                <AccountBoxIcon data-list-type="chat" className="sidebar-icon"/>
+                                <ChatIcon data-list-type="chat" className="sidebar-icon"/>
                             </ListItemIcon>
                             <ListItemText
                                 data-list-type="chat"
@@ -342,7 +345,7 @@ export default function Dashboard() {
                                 className="li-3"
                                 data-list-type="search"
                             >
-                                <AccountBoxIcon data-list-type="search" className="sidebar-icon"/>
+                                <SearchIcon data-list-type="search" className="sidebar-icon"/>
                             </ListItemIcon>
                             <ListItemText
                                 data-list-type="search"
@@ -365,7 +368,7 @@ export default function Dashboard() {
                             <ListItemIcon
                                 data-list-type="eduon"
                             >
-                                <AccountBoxIcon data-list-type="eduon" className="sidebar-icon"/>
+                                <SchoolIcon data-list-type="eduon" className="sidebar-icon"/>
                             </ListItemIcon>
                             <ListItemText
                                 data-list-type="eduon"
@@ -399,7 +402,7 @@ export default function Dashboard() {
                     <Route
                         path="/dashboard/eduon"
                         component={() => {
-                            window.location.href = "http://localhost:4000";
+                            window.location.href = "https://eduon-unifolks.herokuapp.com/";
                             return null;
                         }}
                     />

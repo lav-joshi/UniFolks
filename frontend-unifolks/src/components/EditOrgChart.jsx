@@ -9,7 +9,9 @@ import ReactFlow, {
     ConnectionLineType,
 } from "reactflow";
 import CustomNode from "./EditCustomNode.jsx";
+import BOGButton from "./BOGButton.jsx";
 import ButtonEdge from './CustomEdge.jsx';
+import FinanceComm from "./FinanceButton.jsx";
 import "reactflow/dist/style.css";
 import dagre from "dagre";
 import {
@@ -25,7 +27,7 @@ import { Alert } from "@mui/material";
 import axios from "axios";
 
 const position = { x: 0, y: 0 };
-const nodeTypes = { customNode: CustomNode };
+const nodeTypes = { customNode: CustomNode, bogButton: BOGButton, financeComm: FinanceComm };
 const edgeTypes = {buttonedge: ButtonEdge };
 const dagreGraph = new dagre.graphlib.Graph();
 dagreGraph.setDefaultEdgeLabel(() => ({}));
