@@ -34,9 +34,10 @@ import OrgChart from "./components/OrgChart";
 import EditOrgChart from "./components/EditOrgChart";
 import EditProfile from "./components/EditProfile";
 import Search from "./components/Search";
+import logo from './images/ashu-landoori 3.png'
 const cookies = new Cookies();
 
-const drawerWidth = 250;
+const drawerWidth = 270;
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -104,20 +105,6 @@ const useStyles = makeStyles((theme) => ({
         color: theme.palette.primary.dark,
         // margin: "10px"
     },
-    potentiaDiv: {
-        backgroundColor: theme.palette.secondary.light,
-    },
-    sidebarContent: {
-        backgroundColor: theme.palette.secondary.light,
-        height: "100vh",
-        overflowX: "hidden",
-        boxShadow: "4px 4px 2px #000",
-        maxWidth: 250,
-    },
-    divi: {
-        backgroundColor: theme.palette.primary.light,
-        // height: 2
-    },
     sidebar: {
         overflowX: "hidden",
     },
@@ -142,7 +129,6 @@ export default function Dashboard() {
     };
     return (
         <div className={classes.root}>
-            
             <CssBaseline />
             <AppBar
                 position="fixed"
@@ -150,8 +136,8 @@ export default function Dashboard() {
                     [classes.appBarShift]: open,
                 })}
             >
-                <Toolbar>
-                    <Grid container >
+                <Toolbar className="sidebar-top">
+                    <Grid container>
                         <Grid item xs={6} md={5}>
                             <Box
                                 display="flex"
@@ -188,34 +174,6 @@ export default function Dashboard() {
                                 </Switch>
                             </Box>
                         </Grid>
-                        {/* <Grid
-                            style={{ alignSelf: "center" }}
-                            item
-                            xs={6}
-                            md={7}
-                        >
-                            {loggedin ? (
-                                <Box
-                                    display="flex"
-                                    alignItems="center"
-                                    justifyContent="flex-end"
-                                >
-                                    <Box mr={2}>Welcome User!</Box>
-                                    <Button
-                                        variant="outlined"
-                                        color="secondary"
-                                        onClick={() => {
-                                            cookies.remove("login");
-                                            setloggedin(false);
-                                        }}
-                                    >
-                                        Logout
-                                    </Button>
-                                </Box>
-                            ) : (
-                                <></>
-                            )}
-                        </Grid> */}
                     </Grid>
                 </Toolbar>
             </AppBar>
@@ -234,7 +192,7 @@ export default function Dashboard() {
             >
                 <Box
                     boxShadow={2}
-                    className={`${classes.potentiaDiv}`}
+                    className="sidebar-left-title"
                     display="flex"
                     justifyContent="center"
                     alignItems="center"
@@ -249,13 +207,13 @@ export default function Dashboard() {
                                 alignItems="center"
                                 height={50}
                             >
-                                <Typography variant="h4" align="center">
-                                    UniFolks
+                                <Typography align="center" className="sidebar-title">
+                                    <img src={logo} alt="UniFolks" style={{width: "50px", background: 'white', borderRadius: "1rem"}}/> UniFolks
                                 </Typography>
                             </Box>
                         </Grid>
                         <Grid item xs={3}>
-                            <IconButton onClick={handleDrawerClose}>
+                            <IconButton onClick={handleDrawerClose} className="sidebar-icon-left">
                                 {theme.direction === "rtl" ? (
                                     <ChevronRightIcon />
                                 ) : (
@@ -265,33 +223,32 @@ export default function Dashboard() {
                         </Grid>
                     </Grid>
                 </Box>
-                <Box bgcolor="secondary.light">
-                    <Divider className={`${classes.divi}`} light={true} />
+                <Box bgcolor="sidebar-divider">
+                    <Divider className="sidebar-divider" />
                 </Box>
-                <List className={classes.sidebarContent} >
+                <List className="sidebar-content">
                     <Link
                         to="/dashboard"
-                        className={`li-1 ${classes.toolbar} ${classes.deco}`}
+                        className={`${classes.toolbar} sidebar-li`}
                         onClick={clicked}
                     >
                         <ListItem
                             button
                             data-list-type="dash"
                             key={"Dashboard"}
-                            className={`li-1 ${classes.activeDeco}`}
                             onClick={clicked}
                         >
                             <ListItemIcon
-                                className={`li-1 ${classes.activeDeco}`}
+                                className="sidebar-li"
                                 data-list-type="dash"
                             >
                                 <DashboardIcon
-                                    className="li-1"
+                                    className="sidebar-icon"
                                     data-list-type="dash"
                                 />
                             </ListItemIcon>
                             <ListItemText
-                                className="li-1"
+                                className="sidebar-li"
                                 data-list-type="dash"
                                 color="primary"
                                 primary={"Organization Chart"}
@@ -300,7 +257,7 @@ export default function Dashboard() {
                     </Link>
                     <Link
                         to="/dashboard/editOrganization"
-                        className={`${classes.toolbar} ${classes.deco}`}
+                        className={`${classes.toolbar} sidebar-li`}
                     >
                         <ListItem
                             button
@@ -309,7 +266,7 @@ export default function Dashboard() {
                             key={"Edit Organization Chart"}
                         >
                             <ListItemIcon className="li-3" data-list-type="eoc">
-                                <AccountBoxIcon data-list-type="eoc" />
+                                <AccountBoxIcon data-list-type="eoc" className="sidebar-icon"/>
                             </ListItemIcon>
                             <ListItemText
                                 data-list-type="eoc"
@@ -319,7 +276,8 @@ export default function Dashboard() {
                     </Link>
                     <Link
                         to="/dashboard/editProfile"
-                        className={`${classes.toolbar} ${classes.deco}`}
+                        className={`${classes.toolbar} sidebar-li`}
+                        
                     >
                         <ListItem
                             button
@@ -331,14 +289,15 @@ export default function Dashboard() {
                                 className="li-3"
                                 data-list-type="editprofile"
                             >
-                                <WorkIcon data-list-type="editprofile" />
+                                <WorkIcon data-list-type="editprofile" className="sidebar-icon"/>
                             </ListItemIcon>
                             <ListItemText primary={"Edit Profile"} />
                         </ListItem>
                     </Link>
                     <Link
                         to="/dashboard/chat"
-                        className={`${classes.toolbar} ${classes.deco}`}
+                        className={`${classes.toolbar} sidebar-li`}
+                        
                     >
                         <ListItem
                             button
@@ -346,8 +305,11 @@ export default function Dashboard() {
                             className="li-3"
                             key={"Chat"}
                         >
-                            <ListItemIcon className="li-3" data-list-type="chat">
-                                <AccountBoxIcon data-list-type="chat" />
+                            <ListItemIcon
+                                className="li-3"
+                                data-list-type="chat"
+                            >
+                                <AccountBoxIcon data-list-type="chat" className="sidebar-icon"/>
                             </ListItemIcon>
                             <ListItemText
                                 data-list-type="chat"
@@ -357,7 +319,8 @@ export default function Dashboard() {
                     </Link>
                     <Link
                         to="/dashboard/search"
-                        className={`${classes.toolbar} ${classes.deco}`}
+                        className={`${classes.toolbar} sidebar-li`}
+                        
                     >
                         <ListItem
                             button
@@ -365,8 +328,11 @@ export default function Dashboard() {
                             className="li-3"
                             key={"Search"}
                         >
-                            <ListItemIcon className="li-3" data-list-type="search">
-                                <AccountBoxIcon data-list-type="search" />
+                            <ListItemIcon
+                                className="li-3"
+                                data-list-type="search"
+                            >
+                                <AccountBoxIcon data-list-type="search" className="sidebar-icon"/>
                             </ListItemIcon>
                             <ListItemText
                                 data-list-type="search"
@@ -377,7 +343,8 @@ export default function Dashboard() {
 
                     <Link
                         to="/dashboard/eduon"
-                        className={`${classes.toolbar} ${classes.deco}`}
+                        className={`${classes.toolbar} sidebar-li`}
+                        
                     >
                         <ListItem
                             button
@@ -385,8 +352,10 @@ export default function Dashboard() {
                             className="li-3"
                             key={"EduOn"}
                         >
-                            <ListItemIcon className="li-3" data-list-type="eduon">
-                                <AccountBoxIcon data-list-type="eduon" />
+                            <ListItemIcon
+                                data-list-type="eduon"
+                            >
+                                <AccountBoxIcon data-list-type="eduon" className="sidebar-icon"/>
                             </ListItemIcon>
                             <ListItemText
                                 data-list-type="eduon"
@@ -394,7 +363,6 @@ export default function Dashboard() {
                             />
                         </ListItem>
                     </Link>
-
                 </List>
                 <MyGlass></MyGlass>
             </Drawer>
@@ -402,14 +370,29 @@ export default function Dashboard() {
                 <div className={`${classes.toolbar}`} />
                 <Switch>
                     <Route exact path="/dashboard" component={OrgChart} />
-                    <Route exact path="/dashboard/editOrganization" component={EditOrgChart} />
-                    <Route exact path="/dashboard/editProfile" component={EditProfile} />
-                    <Route exact path="/dashboard/chat" component={ChatGround} />
+                    <Route
+                        exact
+                        path="/dashboard/editOrganization"
+                        component={EditOrgChart}
+                    />
+                    <Route
+                        exact
+                        path="/dashboard/editProfile"
+                        component={EditProfile}
+                    />
+                    <Route
+                        exact
+                        path="/dashboard/chat"
+                        component={ChatGround}
+                    />
                     <Route exact path="/dashboard/search" component={Search} />
-                    <Route path="/dashboard/eduon" component={()=>{
-                        window.location.href = 'http://localhost:4000';
-                        return null;
-                    }}/>
+                    <Route
+                        path="/dashboard/eduon"
+                        component={() => {
+                            window.location.href = "http://localhost:4000";
+                            return null;
+                        }}
+                    />
                 </Switch>
             </main>
         </div>

@@ -8,8 +8,45 @@ import ChatGround from './ChatGround.jsx';
 import HomePage from './HomePage.jsx';
 import "bootstrap/dist/css/bootstrap.min.css";
 import _ from './styles/main.scss';
+import { createTheme, CssBaseline } from '@material-ui/core';
+import { ThemeProvider } from '@emotion/react';
 
 const cookies = new Cookies();
+const font = `'Nunito Sans', sans-serif`;
+
+const theme = createTheme({
+  overrides: {
+    MuiCssBaseline: {
+      '@global': {
+        html: {
+          WebkitFontSmoothing: 'auto',
+          fontFamily: `'Nunito Sans', sans-serif`,
+        },
+      },
+    }
+  },
+  palette: {
+    primary: {
+      light: '#797979',
+      main: '#585858',
+      dark: '#3d3d3d',
+      contrastText: '#fff',
+    },
+    secondary: {
+      light: '#eabc33',
+      main: '#E5AC01',
+      dark: '#a07800',
+      contrastText: '#3d3d3d',
+    },
+    content:{
+      main:"#F0F1F0"
+    }
+  },
+  typography: {
+    fontFamily: font,
+  },
+});
+
 
 class App extends Component {
 
@@ -40,22 +77,25 @@ class App extends Component {
     return (
       <div>
          <UserProvider value={this.state} >
-            <Router>
-                <Route path="/" exact component={HomePage} /> 
-                <UserConsumer>
-                    {
-                      ({isAuthenticated, toggleAuth}) => (
-                          
-                          isAuthenticated?
-                          <>
-                            <Route path="/dashboard" component={Dashboard} /> 
-                            {/* <Route path = "/chat" exact component={ChatGround}/> */}
-                          </>: 
-                          <></>
-                      )
-                    }
-                </UserConsumer>
-            </Router>
+          <ThemeProvider theme={theme}>
+              <Router>
+                  <CssBaseline />
+                  <Route path="/" exact component={HomePage} /> 
+                  <UserConsumer>
+                      {
+                        ({isAuthenticated, toggleAuth}) => (
+                            
+                            isAuthenticated?
+                            <>
+                              <Route path="/dashboard" component={Dashboard} /> 
+                              {/* <Route path = "/chat" exact component={ChatGround}/> */}
+                            </>: 
+                            <></>
+                        )
+                      }
+                  </UserConsumer>
+              </Router>
+            </ThemeProvider>
           </UserProvider>
       </div>
     )

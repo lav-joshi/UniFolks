@@ -1,0 +1,40 @@
+.sidebar-top{
+    background-color: var(--secondary);
+}
+.sidebar-left{
+    background-color: var(--primary);
+}
+.sidebar-content{
+    background-color: var(--primary);
+    height: 100vh;
+    overflow-x: hidden;
+    box-shadow: 4px 4px 2px #000;
+    max-width: 300px;
+}
+.sidebar-li{
+    color: white;
+    text-decoration: none;
+}
+.sidebar-left-title{
+    background-color: var(--primary);
+    color: white;
+}
+.sidebar-title{
+    font-weight: 700 !important;
+    font-size: 1.5rem !important;
+}
+.sidebar-icon-left{
+    color: white !important;
+}
+.sidebar-divider{
+    background-color: var(--primary);
+}
+.sidebar-toolbar{
+
+}
+.sidebar-icon{
+    color: white;
+}
+.main-content{
+
+}
