@@ -156,19 +156,29 @@ export default function Dashboard() {
                                     <MenuIcon />
                                 </IconButton>
                                 <Switch>
-                                    <Route exact path="/">
+                                    <Route exact path="/dashboard">
                                         <Typography variant="h6" noWrap>
                                             Dashboard
                                         </Typography>
                                     </Route>
-                                    <Route exact path="/ccpanel">
+                                    <Route path="/dashboard/editorganization">
                                         <Typography variant="h6" noWrap>
-                                            Client Control Panel
+                                            Edit Organization Chart
                                         </Typography>
                                     </Route>
-                                    <Route exact path="/business">
+                                    <Route path="/dashboard/editProfile">
                                         <Typography variant="h6" noWrap>
-                                            Business Control Panel
+                                            Edit Profile
+                                        </Typography>
+                                    </Route>
+                                    <Route path="/dashboard/chat">
+                                        <Typography variant="h6" noWrap>
+                                            Chat Ground
+                                        </Typography>
+                                    </Route>
+                                    <Route path="/dashboard/search">
+                                        <Typography variant="h6" noWrap>
+                                            Search all users
                                         </Typography>
                                     </Route>
                                 </Switch>
