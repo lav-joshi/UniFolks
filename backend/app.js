@@ -6,6 +6,7 @@ const socketio = require("socket.io");
 const cookieParser = require("cookie-parser");
 const Chat = require('./models/Chat')
 const app = express()
+const path = require('path');
 
 require('dotenv').config()
 require("./db/mongoose");
@@ -25,6 +26,12 @@ app.use('/api/auth', authRouter);
 app.use('/api/user', userRouter);
 app.use('/api/admin', adminRouter);
 
+const buildPath = path.join(__dirname, '../frontend-unifolks', 'build');
+app.use(express.static(buildPath));
+app.use('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '../frontend-unifolks', 'build/index.html'));
+});
+
 const server = http.createServer(app);
 const io = require("socket.io")(server, {
     cors: {
@@ -36,9 +43,7 @@ const io = require("socket.io")(server, {
 });
 
   
-app.get('/', (req, res) => {
-    res.send("Server is running");
-});
+
 
 const PORT = process.env.PORT || 5000;
 

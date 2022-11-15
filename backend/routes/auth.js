@@ -19,7 +19,7 @@ router.post("/google/signin",async(req,res)=>{
        
         if(email_verified){
 
-            if(hd  !== ""){
+            if(hd  === "iiitl.ac.in"){
                 User.findOne({email},(err,user)=>{
                     if(err){
                         return res.status(400).json({

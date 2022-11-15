@@ -117,6 +117,35 @@ router.get("/getTree" , async (req, res) => {
     let initialEdges  = [];
     let initialNodes = [];
 
+    initialNodes.push({
+        id: "bog",
+        position : { x: 0, y: 0 },
+        type: "bogButton",
+        data: {
+            picture: "",
+            name: "",
+            designation: "",
+            email: "",
+        },
+    })
+    
+    initialEdges.push({id : "bog-edge", source : "bog" , target : "fcomm" , type: "buttonEdge", style: { stroke: '#023047' }})
+
+    initialNodes.push({
+        id: "fcomm",
+        position : { x: 0, y: 0 },
+        type: "financeComm",
+        data: {
+            picture: "",
+            name: "",
+            designation: "",
+            email: "",
+        },
+    })
+    
+    initialEdges.push({id : "fcomm-edge", source : "fcomm" , target : "director@iiitl.ac.in" , type: "buttonEdge", style: { stroke: '#023047' }})
+
+    
     for(let i = 0 ; i < edges.length; i = i + 1){
         let src = edges[i].src;
         let dest = edges[i].dest;
