@@ -27,17 +27,18 @@ router.get("/allusers", authUser, (req,res) => {
 // Params: key can be id or email and value should be corresponding to that in body.
 router.post("/getProfile/:key", (req, res)=> {
     let key = req.params['key'];
-    User.findOne({key : req.body.value},async (err, user)=>{
+    User.findOne({[key] : req.body.value},async (err, user)=>{
         if(err) {
             res.status(400).send({message : "Something went wrong"});
         }else{
+            console.log(user);
             res.status(200).send(user);
         }
     });
 });
 
 // Adds the person as friend 
-router.get("/addFriend/" , (req,res)=>{
+router.post("/addFriend/" , (req,res)=>{
     User.findOne({email : req.headers.email} , async (err1, user) => {
         if(err1 || !user){
             res.status(400).send({message : "Something went wrong"});
@@ -154,8 +155,8 @@ router.get("/getTree" , async (req, res) => {
                 },
             })
         }
-        initialEdges.push({id : edges[i].id, source : src , target : dest , type: "buttonedge", style: { stroke: 'red' }})
-    }
+        initialEdges.push({id : edges[i].id, source : src , target : dest , type: "buttonedge", style: { stroke: '#023047' }})
+    }   
 
     res.status(200).json({
         initialNodes,

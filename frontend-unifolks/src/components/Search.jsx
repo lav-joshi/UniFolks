@@ -7,6 +7,9 @@ import Grid from "@mui/material/Grid";
 import searchBg from "../images/search-bg.svg";
 import avatar from '../images/avatar.webp';
 import { Box } from "@mui/system";
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import SearchIcon from '@material-ui/icons/Search';
+
 import {
   MenuItem,
   TextField,
@@ -15,8 +18,11 @@ import {
   CardContent,
   Typography,
   CardMedia,
+  Dialog,
+  Alert,
 } from "@mui/material";
 import CustomNode from './CustomNode';
+import { Button, InputAdornment } from "@material-ui/core";
 
 const cookies = new Cookies();
 const createHeader = () => {
@@ -59,18 +65,18 @@ export default function Search() {
   const [city, setCity] = useState("");
   const [name, setName] = useState("");
   const [tags, setTags] = useState("");
-
+  
   useEffect(() => {
     createHeader()
-      .get("/api/user/allusers")
+    .get("/api/user/allusers")
       .then((res) => {
         setAllUsers(res.data.users);
         console.log(res.data.users);
       })
       .catch((e) => {});
-  }, []);
+    }, []);
 
-  useEffect(() => {
+    useEffect(() => {
     setFilteredUsers(allUsers);
   }, [allUsers]);
 
@@ -79,24 +85,41 @@ export default function Search() {
     let selected = [];
     let users = allUsers.filter(
       (user) =>
-        (name === "" ||
+      (name === "" ||
           user.name.toLowerCase().startsWith(name.toLowerCase())) &&
         (city === "" ||
-          (user.city
+        (user.city
             ? user.city.toLowerCase().startsWith(city.toLowerCase())
             : false)) &&
-        (bloodGroup === "Blood Group" ||
-          (user.bloodGroup
-            ? user.bloodGroup.toLowerCase().startsWith(bloodGroup.toLowerCase())
+            (bloodGroup === "Blood Group" ||
+            (user.bloodGroup
+              ? user.bloodGroup.toLowerCase().startsWith(bloodGroup.toLowerCase())
             : false)) &&
-        (tags === "" || checkIntersection(tags, user.tags))
+            (tags === "" || checkIntersection(tags, user.tags))
     );
 
     setFilteredUsers(users);
   }, [bloodGroup, city, name, tags]);
-
+  
+  const [alertData, setAlert] = useState({show: false, content: "", severity: ""});
+  const handleAddFriend = (friendId) => {
+    createHeader()
+    .post("/api/user/addFriend", {friendId})
+      .then((res) => {
+        setAlert({show: true, content:res.data.message, severity: "success"});
+      })
+      .catch(({ response }) => { 
+        console.log(response);
+    });
+    };
   return (
     <>
+        <Dialog open={alertData.show}>
+            {alertData.show? <Alert autoFocus variant="outlined" onClose={() => {setAlert({show: false})}} severity={alertData.severity} >
+            {alertData.content}
+        </Alert> :
+        <></>}
+      </Dialog>
       <h1>Hey, We Got you!</h1>
       <p>Search anyone you want</p>
 
@@ -114,6 +137,7 @@ export default function Search() {
                   console.log(e.target.value);
                   setBloodGroup(e.target.value);
                 }}
+                sx={{ background: 'white', width: '20rem' } }
               >
                 <MenuItem value="Blood Group">Blood Group</MenuItem>
                 <MenuItem value="A positive">A Positive</MenuItem>
@@ -135,34 +159,45 @@ export default function Search() {
               <TextField
                 type="text"
                 value={city}
+                sx={{ input: { background: 'white' } , width: '20rem'}}
                 placeholder={"City"}
                 onChange={(e) => setCity(e.target.value)}
+                InputProps={{
+                  startAdornment: <InputAdornment position="start"><SearchIcon /></InputAdornment>,
+                }}
               />
             </Grid>
             <Grid item xs={6}>
               <TextField
                 type="text"
                 value={name}
+                sx={{ input: { background: 'white', paddingLeft: '1rem' }, width: '20rem' }}
                 placeholder={"Name"}
                 onChange={(e) => setName(e.target.value)}
+                InputProps={{
+                  startAdornment: <InputAdornment position="start"><SearchIcon /></InputAdornment>,
+                }}
               />
             </Grid>
             <Grid item xs={5}>
               <TextField
                 type="text"
+                sx={{ input: { background: 'white', paddingLeft: '1rem' } , width: '20rem'}}
                 value={tags}
-                variant="filled"
                 placeholder={"Tags"}
                 onChange={(e) => setTags(e.target.value)}
+                InputProps={{
+                  startAdornment: <InputAdornment position="start"><SearchIcon /></InputAdornment>,
+                }}
               />
             </Grid>
 
             <Box sx={{display: 'flex', padding: '1rem', flexWrap: 'wrap'}}>
               {filteredUsers.map((user, id) => {
                 return (      
-                      <Card sx={{ display: 'flex', minWidth: '16rem', margin: '1rem' }}>
+                      <Card sx={{ display: 'flex', margin: '1rem' }} className="searchNode">
                         <Box sx={{ display: 'flex'}}>
-                          <CardContent sx={{display: 'flex', justifyItems: "center", alignItems: "center", flexDirection: "column"}}>
+                          <CardContent sx={{display: 'flex', minWidth: '10rem', justifyItems: "space-around", alignItems: "space-around", flexDirection: "column"}}>
                             <Typography component="div">
                               {user.designation} 
                             </Typography>
@@ -174,7 +209,9 @@ export default function Search() {
                             </Typography>
                             <br></br>
                           </CardContent>
-                          
+                          <Button variant="contained" className="addfriend-button" onClick={e => handleAddFriend(user.email)} >
+                            <PersonAddIcon />
+                          </Button>
                         <CardMedia
                           component="img"
                           style={{ width: 90 }}

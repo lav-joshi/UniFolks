@@ -88,7 +88,6 @@ const Chat = (props) => {
                   (val.sender == cookies.get("email"))?
                     <div class="message-box user" key={i} >
                       <span class="message user">{val.message}</span>
-                      {/* Time lagana hain  */}
                     </div>
                     :
                     <div className="message-box other-user">
@@ -109,7 +108,7 @@ const Chat = (props) => {
           placeholder="Write Message... "
           onChange={(e) => setMessage(e.target.value)}
         />
-        <button id="send-button" type="submit"><img src={send} style={{width:10, height:10}} alt="Send"/></button>
+        <button id="send-button" type="submit"><img src={send} style={{width:20}} alt="Send"/></button>
       </form>
     </>
   );

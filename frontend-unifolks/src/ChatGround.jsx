@@ -3,6 +3,7 @@ import axios from 'axios'
 import ChatMessages from "./components/ChatMessages";
 import {useLocation} from "react-router-dom";
 import Cookies from 'universal-cookie';
+import { Card, Paper } from "@material-ui/core";
 
 const cookies = new Cookies();
 const createHeader = () => {
@@ -40,14 +41,16 @@ const ChatGround = () => {
   return (
         <div class="chatground">
         <div class="background">
+          
+        <div className="chat-header">
+              {selectedFriendDetails.name? selectedFriendDetails.name: ""}
+            </div>
           <div class="main-box">
             <div class="user-lists">
               {
                 friends.map((val, idx) => {
                   return (
-                    <div class="user-modal">
-                      <div key = {val.email} onClick={(e) => handleSelectedFriend(val)}> {val.name} </div>
-                    </div>
+                      <Card className="user-modal" key = {val.email} onClick={(e) => handleSelectedFriend(val)}> {val.name} </Card>
                   )
                 })
               }
