@@ -5,14 +5,18 @@ import { useState } from "react";
 import Cookies from "universal-cookie";
 import Grid from "@mui/material/Grid";
 import searchBg from "../images/search-bg.svg";
+import avatar from '../images/avatar.webp';
 import { Box } from "@mui/system";
 import {
-  FormControl,
-  InputLabel,
   MenuItem,
-  OutlinedInput,
+  TextField,
   Select,
+  Card,
+  CardContent,
+  Typography,
+  CardMedia,
 } from "@mui/material";
+import CustomNode from './CustomNode';
 
 const cookies = new Cookies();
 const createHeader = () => {
@@ -94,7 +98,7 @@ export default function Search() {
       <h1>Hey, We Got you!</h1>
       <p>Search anyone you want</p>
 
-      <Grid container spacing={2}>
+      <Grid container spacing={2} >
         <Grid item xs={8}>
           <Grid container gap={1}>
             <Grid item xs={6}>
@@ -126,7 +130,7 @@ export default function Search() {
               </Select>
             </Grid>
             <Grid item xs={5}>
-              <OutlinedInput
+              <TextField
                 type="text"
                 value={city}
                 placeholder={"City"}
@@ -134,7 +138,7 @@ export default function Search() {
               />
             </Grid>
             <Grid item xs={6}>
-              <OutlinedInput
+              <TextField
                 type="text"
                 value={name}
                 placeholder={"Name"}
@@ -142,19 +146,47 @@ export default function Search() {
               />
             </Grid>
             <Grid item xs={5}>
-              <OutlinedInput
+              <TextField
                 type="text"
                 value={tags}
+                variant="filled"
                 placeholder={"Tags"}
                 onChange={(e) => setTags(e.target.value)}
               />
             </Grid>
 
-            <Grid xs={12}>
+            <Box sx={{display: 'flex', padding: '1rem', flexWrap: 'wrap'}}>
               {filteredUsers.map((user, id) => {
-                return <Box key={id}>{user.name}</Box>;
+                return (      
+                      <Card sx={{ display: 'flex', minWidth: '16rem', margin: '1rem' }}>
+                        <Box sx={{ display: 'flex'}}>
+                          <CardContent sx={{display: 'flex', justifyItems: "center", alignItems: "center", flexDirection: "column"}}>
+                            <Typography component="div">
+                              {user.designation} 
+                            </Typography>
+                            <Typography style={{fontSize: "small"}} color="secondary" component="div">
+                              {user.name}
+                            </Typography>
+                            <Typography style={{fontSize: "small"}} color="secondary" component="a" to={`mailto:${user.email}`}>
+                              {user.email}
+                            </Typography>
+                            <br></br>
+                          </CardContent>
+                          
+                        <CardMedia
+                          component="img"
+                          style={{ width: 90 }}
+                          image={user.picture? user.picture: avatar}
+                          alt={user.designation}
+                        />
+                        </Box>
+                    </Card>
+                )
+                
+                ;
               })}
-            </Grid>
+              
+            </Box>
           </Grid>
         </Grid>
         <Grid item xs={4}>
