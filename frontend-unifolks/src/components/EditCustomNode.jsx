@@ -52,7 +52,7 @@ function CustomNode({ data }) {
         setAlert({show: true, content:"Please fill all the fields", severity: "error"});
     } else {
         axios
-        .post("http://localhost:5000/api/admin/addleaf", formValues)
+        .post(`${process.env.REACT_APP_HOST}/api/admin/addleaf`, formValues)
         .then((res) => {
             if (res.status === 200) {
                 setAlert({show: true, content:res.data.message, severity: "success"});
@@ -107,7 +107,7 @@ function CustomNode({ data }) {
   };
 const handleProfileSubmit = () => {
       axios
-          .post("http://localhost:5000/api/user/editProfile", profileFormValues)
+          .post(`${process.env.REACT_APP_HOST}/api/user/editProfile`, profileFormValues)
           .then((res) => {
               if (res.status === 200) {
                   setProfileAlert({
@@ -142,7 +142,7 @@ const handleProfileSubmit = () => {
   const [base64decoded, setBAse64Decoded] = useState("");
   const createHeader = () => {
     const authAxios = axios.create({
-      baseURL: "http://localhost:5000",
+      baseURL: process.env.REACT_APP_HOST,
       headers: {
         Authorization: `Bearer ${cookies.get("token")}`,
         email: cookies.get("email"),

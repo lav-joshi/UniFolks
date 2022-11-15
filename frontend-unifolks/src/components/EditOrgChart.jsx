@@ -73,7 +73,7 @@ export default function EditOrgChart() {
 
     const getTree = () => {
         axios
-        .get("http://localhost:5000/api/user/getTree")
+        .get(`${process.env.REACT_APP_HOST}/api/user/getTree`)
         .then((res) => {
             console.log(res.data);
             const { nodes, edges } = getLayoutedElements(
@@ -143,7 +143,7 @@ export default function EditOrgChart() {
             setAlert({show: true, content:"Please fill all the fields", severity: "error"});
         } else {
             axios
-                .post("http://localhost:5000/api/admin/create", formValues)
+                .post(`${process.env.REACT_APP_HOST}/api/admin/create`, formValues)
                 .then((res) => {
                     if (res.status === 200) {
                         setAlert({show: true, content:res.data.message, severity: "success"});

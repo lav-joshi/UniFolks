@@ -27,7 +27,7 @@ import { Button, InputAdornment } from "@material-ui/core";
 const cookies = new Cookies();
 const createHeader = () => {
   const authAxios = axios.create({
-    baseURL: "http://localhost:5000",
+    baseURL: process.env.REACT_APP_HOST,
     headers: {
       Authorization: `Bearer ${cookies.get("token")}`,
       email: cookies.get("email"),

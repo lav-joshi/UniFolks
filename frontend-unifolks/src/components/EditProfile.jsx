@@ -29,7 +29,7 @@ const Item = styled(Paper)(({ theme }) => ({
 export default function EditProfile() {
     const createHeader = () => {
         const authAxios = axios.create({
-            baseURL: "http://localhost:5000",
+            baseURL: process.env.REACT_APP_HOST,
             headers: {
                 Authorization: `Bearer ${cookies.get("token")}`,
                 email: cookies.get("email"),
@@ -146,7 +146,7 @@ export default function EditProfile() {
     const handleProfileSubmit = () => {
         axios
             .post(
-                "http://localhost:5000/api/user/editProfile",
+                `${process.env.REACT_APP_HOST}/api/user/editProfile`,
                 profileFormValues
             )
             .then((res) => {

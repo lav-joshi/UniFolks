@@ -7,7 +7,7 @@ import send from "../assets/send.png";
 const cookies = new Cookies();
 const createHeader = () => {
     const authAxios = axios.create({
-        baseURL: "http://localhost:5000",
+        baseURL: process.env.REACT_APP_HOST,
         headers: {
             Authorization: `Bearer ${cookies.get("token")}`,
             email: cookies.get("email"),
@@ -33,7 +33,7 @@ const Chat = (props) => {
   
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
-  const ENDPOINT = "http://localhost:5000";
+  const ENDPOINT = process.env.REACT_APP_HOST;
 
   useEffect(() => {
 

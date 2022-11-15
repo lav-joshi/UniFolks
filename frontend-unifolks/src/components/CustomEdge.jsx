@@ -63,7 +63,7 @@ export default function CustomEdge({
                 severity: "error",
             });
         } else {
-            axios.post("http://localhost:5000/api/admin/addbetween", formValues)
+            axios.post(`${process.env.REACT_APP_HOST}/api/admin/addbetween`, formValues)
                 .then((res) => {
                 if (res.status === 200) {
                     setAlert({

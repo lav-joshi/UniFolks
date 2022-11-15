@@ -8,7 +8,7 @@ const cookies = new Cookies();
 const LoginButton = (props) => {
     const history = useHistory();
     const responseGoogle = (response) => {
-        axios.post("http://localhost:5000/api/auth/google/signin", {
+        axios.post(`${process.env.REACT_APP_HOST}/api/auth/google/signin`, {
             tokenId: response.tokenId,
         })
         .then(async (res) => {
