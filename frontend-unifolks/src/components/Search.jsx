@@ -32,7 +32,6 @@ const createHeader = () => {
 };
 
 const checkIntersection = (tags, userTags) => {
-  console.log("fruits");
 
   if (userTags.length === 0 || tags === "") return false;
   const fruits = new Map();
@@ -41,14 +40,16 @@ const checkIntersection = (tags, userTags) => {
   for (let i = 0; i < tagsSplit.length; i++) {
     fruits.set(tagsSplit[i], 1);
   }
-  console.log(fruits);
+  
   for (let i = 0; i < userTags.length; i++) {
-    if (fruits.has(userTags[i])) {
-    } else {
-      return false;
+    for (let [key, value] of fruits) {
+        if(userTags[i].toLowerCase().startsWith(key.toLowerCase())){
+            return true
+        }
     }
   }
-  return true;
+
+  return false;
 };
 
 export default function Search() {
@@ -75,6 +76,7 @@ export default function Search() {
 
   useEffect(() => {
     console.log("called", name, city, bloodGroup, tags);
+    let selected = [];
     let users = allUsers.filter(
       (user) =>
         (name === "" ||
@@ -82,7 +84,7 @@ export default function Search() {
         (city === "" ||
           (user.city
             ? user.city.toLowerCase().startsWith(city.toLowerCase())
-            : true)) &&
+            : false)) &&
         (bloodGroup === "Blood Group" ||
           (user.bloodGroup
             ? user.bloodGroup.toLowerCase().startsWith(bloodGroup.toLowerCase())

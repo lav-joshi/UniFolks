@@ -49,6 +49,7 @@ export default function EditProfile() {
     }
     const [profileFormValues, setProfileValues] = useState({
         name: "",
+        city:"",
         designation: "",
         bio: "",
         email: "",
@@ -67,6 +68,7 @@ export default function EditProfile() {
                     picture: res.data.picture,
                     designation: res.data.designation,
                     bio: res.data.bio,
+                    city : res.data.city,
                     email: res.data.email,
                     contact: res.data.contact,
                     urls: convertArraytoString(res.data.urls),
